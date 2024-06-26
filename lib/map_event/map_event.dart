@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/notification/notif.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -30,6 +31,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           zoom: 11.0,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NotificationBar()),
+          );
+        },
+        child: Icon(Icons.notifications_none),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
     );
   }
 }
