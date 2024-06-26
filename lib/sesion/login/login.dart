@@ -1,11 +1,13 @@
+import 'package:digital_event_hub/map_event/map_event.dart';
 import 'package:digital_event_hub/sesion/create_count/create_count.dart';
+import 'package:digital_event_hub/sesion/recover_pass/recover_pass.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -26,7 +28,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
@@ -39,14 +41,20 @@ class SignInScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecoverPass(),
+                          ));
+                    },
                     child: Text(
                       'Olvide mi contraseña',
                       style: TextStyle(color: Colors.pinkAccent),
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 0),
                 GradientButton(
                   text: 'Ingresar',
                   gradient: LinearGradient(
@@ -57,6 +65,12 @@ class SignInScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     //
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMapScreen(),
+                      ),
+                    );
                   },
                 ),
                 SizedBox(height: 10),
