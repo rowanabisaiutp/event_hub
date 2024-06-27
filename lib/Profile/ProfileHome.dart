@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/Profile/ProfileEdit.dart';
 import 'package:flutter/material.dart';
 
 class ProfileHome extends StatelessWidget {
@@ -16,10 +17,7 @@ class ProfileHome extends StatelessWidget {
                     height: 265.0,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                           Color(0xFFD36AE4),
-                          Color(0x42E894BC)
-                        ],
+                        colors: [Color(0xFFD36AE4), Color(0x42E894BC)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
@@ -36,8 +34,7 @@ class ProfileHome extends StatelessWidget {
                       SizedBox(height: 1),
                       CircleAvatar(
                         radius: 80.0,
-                        backgroundImage: NetworkImage(
-                            'https://cdn-icons-png.freepik.com/512/3135/3135715.png'), // Cambia esto por la ruta de tu imagen
+                        backgroundImage: AssetImage('assets/profile.png'),
                       ),
                     ],
                   ),
@@ -65,9 +62,14 @@ class ProfileHome extends StatelessWidget {
                     ),
                     const SizedBox(height: 10.0),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileEdith()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+                        backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 35, vertical: 10),
                         shape: RoundedRectangleBorder(
@@ -147,14 +149,17 @@ class ProfileHome extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+                        backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 90, vertical: 8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ), // Color del botón
                       ),
-                      child: const Text('Cerrar sesión', style: TextStyle(color: Colors.white, fontSize: 25.0),),
+                      child: const Text(
+                        'Cerrar sesión',
+                        style: TextStyle(color: Colors.white, fontSize: 25.0),
+                      ),
                     ),
                   ],
                 ),
