@@ -1,4 +1,3 @@
-import 'package:digital_event_hub/notification/notif.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -21,8 +20,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mapa de eventos cercanos'),
-        backgroundColor: Color.fromARGB(255, 255, 87, 252),
+        title: Center(child: Text('Mapa de eventos cercanos',style: TextStyle(color: Colors.white),)),
+        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+        automaticallyImplyLeading: false,
       ),
       body: GoogleMap(
         onMapCreated: _onMapCreated,
@@ -30,16 +30,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           target: _center,
           zoom: 11.0,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NotificationBar()),
-          );
-        },
-        child: Icon(Icons.notifications_none),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,

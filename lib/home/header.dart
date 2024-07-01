@@ -1,9 +1,10 @@
+import 'package:digital_event_hub/Profile/ProfileHome.dart';
 import 'package:flutter/material.dart';
 
 class HeaderHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -11,10 +12,9 @@ class HeaderHome extends StatelessWidget {
             Text(
               'Hola, Eider',
               style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
-              ),
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             Text(
               'Bienvenido',
@@ -26,11 +26,18 @@ class HeaderHome extends StatelessWidget {
           ],
         ),
         Spacer(),
-        CircleAvatar(
-          radius: 24.0,
-          backgroundImage: NetworkImage('https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileHome()),
+            );
+          },
+          child: const CircleAvatar(
+            radius: 24.0,
+            backgroundImage: AssetImage('assets/profile.png'),
+          ),
         ),
-        
       ],
     );
   }

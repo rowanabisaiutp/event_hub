@@ -69,7 +69,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                                       borderRadius: BorderRadius.circular(10),
                                     ), // Color del botón
                                   ),
-                                  child: const Text('Pick Image from Gallery', style: TextStyle(
+                                  child: const Text('Selecciona una imagen', style: TextStyle(
                                         color: Colors.white, fontSize: 15.0),),
                                 ),
                                 const SizedBox(height: 20),
@@ -88,7 +88,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                                     ), // Color del botón
                                   ),
                                   child: const Text(
-                                    'Take a Photo',
+                                    'Tomar foto',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 15.0),
                                   ),

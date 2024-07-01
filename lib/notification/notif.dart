@@ -77,8 +77,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 213, 170, 255),
-        title: Text('Notificaciones'),
+        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+        title: Center(child: Text('Notificaciones',style: TextStyle(color: Colors.white),)),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [

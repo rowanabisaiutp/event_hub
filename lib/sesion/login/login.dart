@@ -1,4 +1,4 @@
-import 'package:digital_event_hub/map_event/map_event.dart';
+import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:digital_event_hub/sesion/create_count/create_count.dart';
 import 'package:digital_event_hub/sesion/recover_pass/recover_pass.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class SignInScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GoogleMapScreen(),
+                        builder: (context) => EventsList(),
                       ),
                     );
                   },

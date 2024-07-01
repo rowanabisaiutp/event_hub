@@ -18,7 +18,7 @@ class ScrollChips extends StatelessWidget {
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
           ),
           SizedBox(width: 10),
@@ -33,7 +33,7 @@ class ScrollChips extends StatelessWidget {
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
           ),
           SizedBox(width: 10),
@@ -48,7 +48,7 @@ class ScrollChips extends StatelessWidget {
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
           ),
           SizedBox(width: 10),
@@ -63,7 +63,7 @@ class ScrollChips extends StatelessWidget {
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
           ),
           
