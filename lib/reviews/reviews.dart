@@ -1,3 +1,6 @@
+import 'package:digital_event_hub/home/eventsList.dart';
+import 'package:digital_event_hub/map_event/map_event.dart';
+import 'package:digital_event_hub/notification/notif.dart';
 import 'package:digital_event_hub/reviews/eventCali.dart';
 import 'package:digital_event_hub/widgets/cards/cardReview.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +14,9 @@ class _ReviewsState extends State<Reviews> {
   int _selectedIndex = 0; 
 
   static List<Widget> _widgetOptions = <Widget>[
-    ReviewsScreen(),
-    Center(child: Text('Tienda')),
-    Center(child: Text('Perfil')),
+    EventsListBody(),
+    NotificationBar(),
+    GoogleMapScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -31,20 +34,21 @@ class _ReviewsState extends State<Reviews> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            label: 'Reseñas',
+            label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Tienda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
+            icon: Icon(Icons.pin_drop_rounded),
+            //FontAwesomeIcons.gamepad
+            label: '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFFCA8DD9),
+        selectedItemColor: Color(0xFFD36AE4),
         onTap: _onItemTapped,
       ),
     );
@@ -114,7 +118,7 @@ class ReviewsScreen extends StatelessWidget  {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 213, 170, 255),
-        title: Text('Notificaciones'),
+        title: Text('Reseñas', style: TextStyle(color: Colors.white)),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 40, right: 24, bottom: 0, left: 24),

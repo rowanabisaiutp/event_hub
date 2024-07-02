@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/reviews/reviews.dart';
 import 'package:flutter/material.dart';
 
 class EventPage extends StatelessWidget {
@@ -116,7 +117,12 @@ class EventPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ReviewsScreen()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   padding:

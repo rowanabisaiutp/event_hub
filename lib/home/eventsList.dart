@@ -1,5 +1,7 @@
+import 'package:digital_event_hub/event_detail/event_page.dart';
 import 'package:digital_event_hub/home/header.dart';
-import 'package:digital_event_hub/reviews/reviews.dart';
+import 'package:digital_event_hub/map_event/map_event.dart';
+import 'package:digital_event_hub/notification/notif.dart';
 import 'package:digital_event_hub/widgets/cards/cardEvent.dart';
 import 'package:digital_event_hub/widgets/scrollChips.dart';
 import 'package:digital_event_hub/widgets/searchInput.dart';
@@ -15,8 +17,8 @@ class _EventsListState extends State<EventsList> {
 
   static List<Widget> _widgetOptions = <Widget>[
     EventsListBody(),
-    Center(child: Text('Tienda')),
-    Center(child: Text('Perfil')),
+    NotificationBar(),
+    GoogleMapScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -34,16 +36,17 @@ class _EventsListState extends State<EventsList> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            label: 'Notificaciones',
+            label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag),
-            label: 'Tienda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
+            icon: Icon(Icons.pin_drop_rounded),
+            //FontAwesomeIcons.gamepad
+            label: '',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -54,16 +57,7 @@ class _EventsListState extends State<EventsList> {
   }
 }
 
-
-
-
-
 ////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 // class EventsListBody  extends StatefulWidget {
 
@@ -81,7 +75,8 @@ List<Map<String, String>> datos = [
   },
   {
     'title': 'Conferencia Virtual',
-    'img': 'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
+    'img':
+        'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
     'ubication': 'Online',
     'date': '2024-07-15',
     'id': '2',
@@ -95,16 +90,15 @@ List<Map<String, String>> datos = [
   },
   {
     'title': 'Conferencia Virtual',
-    'img': 'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
+    'img':
+        'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
     'ubication': 'Online',
     'date': '2024-07-15',
     'id': '2',
   },
 ];
 
-class EventsListBody extends StatelessWidget  {
-  
-
+class EventsListBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -118,29 +112,27 @@ class EventsListBody extends StatelessWidget  {
           SizedBox(height: 10.0),
           ScrollChips(),
           SizedBox(height: 10.0),
-
-          Expanded(// Ejemplo de altura fija
+          Expanded(
+            // Ejemplo de altura fija
             child: ListView.builder(
               padding: EdgeInsets.all(0.0),
               itemCount: datos.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Reviews()),
+                      MaterialPageRoute(builder: (context) => EventPage()),
                     );
                   },
                   child: Column(
-                    
                     children: [
                       CardEvent(
-                        datos[index]['title'] ?? '',
-                        datos[index]['img'] ?? '',
-                        datos[index]['ubication'] ?? '',
-                        datos[index]['date'] ?? '',
-                        datos[index]['id'] ?? ''
-                      ),
+                          datos[index]['title'] ?? '',
+                          datos[index]['img'] ?? '',
+                          datos[index]['ubication'] ?? '',
+                          datos[index]['date'] ?? '',
+                          datos[index]['id'] ?? ''),
                       SizedBox(height: 10.0),
                     ],
                   ),
@@ -148,7 +140,6 @@ class EventsListBody extends StatelessWidget  {
               },
             ),
           )
-         
         ],
       ),
     );
