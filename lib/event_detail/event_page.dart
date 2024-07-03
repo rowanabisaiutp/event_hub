@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:digital_event_hub/reviews/reviews.dart';
 import 'package:flutter/material.dart';
 
@@ -33,50 +35,59 @@ class EventPage extends StatelessWidget {
                     Stack(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
+                          borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset(
-                            'assets/event_image.jpg',
+                            'assets/Mask group.png',
                             width: double.infinity,
                             height: 500,
                             fit: BoxFit.cover,
                           ),
                         ),
                         Positioned(
-                          bottom: 16,
-                          left: 16,
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Brawl Stars Tournament',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          bottom: 30,
+                          left: 20,
+                          right: 20,
+                          child: ClipRRect(
+                            // Necesario para que el BackdropFilter funcione correctamente
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+                              child: Container(
+                                padding: const EdgeInsets.all(25.0),
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                      0x4D1D1D1D), // Color con 30% de opacidad
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                Row(
+                                child: const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.location_on,
-                                        color: Colors.white, size: 16),
-                                    SizedBox(width: 4),
                                     Text(
-                                      'Teatro Armando Manzanero, Yuc.',
+                                      'Brawl Stars Tournament',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.location_on,
+                                            color: Colors.white, size: 16),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          'Teatro Armando Manzanero, Yuc.',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '24/06/03',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  '24/06/03',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -124,11 +135,11 @@ class EventPage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
+                  backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Row(
