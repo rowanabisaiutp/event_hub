@@ -19,9 +19,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Center(child: Text('Mapa de eventos cercanos',style: TextStyle(color: Colors.white),)),
-        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         automaticallyImplyLeading: false,
       ),
       body: GoogleMap(

@@ -55,6 +55,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                             await showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
+                                backgroundColor: Colors.white,
                                 title: const Center(child: Text('Elige una opción')),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -65,8 +66,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                                         Navigator.of(context).pop();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 214, 113, 229),
+                                        backgroundColor: Theme.of(context).colorScheme.tertiary,
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 40, vertical: 8),
                                         shape: RoundedRectangleBorder(
@@ -83,8 +83,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                                         Navigator.of(context).pop();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 214, 113, 229),
+                                        backgroundColor: Theme.of(context).colorScheme.tertiary,
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 40, vertical: 8),
                                         shape: RoundedRectangleBorder(
@@ -140,8 +139,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 214, 113, 229), // Background color
+                    backgroundColor: Theme.of(context).colorScheme.tertiary, // Background color
                     padding: const EdgeInsets.symmetric(
                         horizontal: 55, vertical: 15),
                     shape: RoundedRectangleBorder(
@@ -159,8 +157,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 214, 113, 229), // Background color
+                    backgroundColor: Theme.of(context).colorScheme.tertiary, // Background color
                     padding: const EdgeInsets.symmetric(
                         horizontal: 55, vertical: 15),
                     shape: RoundedRectangleBorder(

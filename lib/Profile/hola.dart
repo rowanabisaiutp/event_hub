@@ -1,21 +1,12 @@
 import 'package:digital_event_hub/Profile/ProfileEdit.dart';
-import 'package:digital_event_hub/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ProfileHome extends StatefulWidget {
-  @override
-  _ProfileHomeState createState() => _ProfileHomeState();
-}
-
-class _ProfileHomeState extends State<ProfileHome> {
-  int selectedIndex = -1; // Índice del tema seleccionado
-
+class ProfileHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white, // Cambia el color de fondo aquí
+        color: Colors.white,
         child: Column(
           children: [
             Stack(
@@ -24,12 +15,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                   clipper: NavbarClipper(),
                   child: Container(
                     height: 265.0,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.secondary,
-                        ],
+                        colors: [Color(0xFFD36AE4), Color(0x42E894BC)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
@@ -77,12 +65,11 @@ class _ProfileHomeState extends State<ProfileHome> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfileEdith()),
+                          MaterialPageRoute(builder: (context) => ProfileEdith()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 35, vertical: 10),
                         shape: RoundedRectangleBorder(
@@ -132,56 +119,37 @@ class _ProfileHomeState extends State<ProfileHome> {
                     const SizedBox(height: 90.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(4, (index) {
-                        final themeColors = [
-                          Color.fromARGB(255, 214, 113, 229),
-                          Colors.pink.shade100,
-                          Colors.purple.shade100,
-                          Colors.blue.shade100,
-                        ];
-
-                        final themes = [
-                          theme1,
-                          theme2,
-                          theme3,
-                          theme4,
-                        ];
-
-                        return Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Provider.of<ThemeNotifier>(context, listen: false)
-                                    .setTheme(themes[index]);
-                                setState(() {
-                                  selectedIndex = index; // Actualiza el índice seleccionado
-                                });
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 25.0,
-                                    backgroundColor: themeColors[index],
-                                  ),
-                                  if (selectedIndex == index)
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 10.0),
-                          ],
-                        );
-                      }),
+                      children: [
+                        CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.blue.shade100,
+                        ),
+                        const SizedBox(width: 10.0),
+                        CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.pink.shade100,
+                        ),
+                        const SizedBox(width: 10.0),
+                        CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.purple.shade100,
+                        ),
+                        const SizedBox(width: 10.0),
+                        const CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Colors.purple,
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 83.0),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 90, vertical: 8),
                         shape: RoundedRectangleBorder(

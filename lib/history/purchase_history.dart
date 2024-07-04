@@ -6,11 +6,13 @@ class PurchaseHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         elevation: 0,
-        title: const Text('Historial de compras'),
+        title: const Text('Historial de compras', style: TextStyle(color: Colors.white),),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
@@ -131,8 +133,7 @@ class PurchaseHistoryPage extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.qr_code, color: Color.fromARGB(
-                        255, 214, 113, 229),),
+                          icon: Icon(Icons.qr_code, color: Theme.of(context).colorScheme.tertiary,),
                           onPressed: () {},
                         ),
                       ],

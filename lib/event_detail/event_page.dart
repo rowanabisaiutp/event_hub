@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:digital_event_hub/reviews/reviews.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,18 @@ class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EventsList()),
+            );
+          },
         ),
         actions: [
           IconButton(
@@ -140,7 +147,7 @@ class EventPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 214, 113, 229),
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
                   shape: RoundedRectangleBorder(

@@ -116,9 +116,11 @@ class ReviewsScreen extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 213, 170, 255),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         title: Text('Reseñas', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 40, right: 24, bottom: 0, left: 24),

@@ -57,12 +57,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 214, 113, 229),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         title: Center(child: Text('Notificaciones',style: TextStyle(color: Colors.white),)),
         automaticallyImplyLeading: false,
       ),
       body: Column(
+        
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -71,33 +73,39 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: Row(
                 children: [
                   FilterChip(
-                    label: Text('Hoy'),
+                    label: Text('Hoy', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                   SizedBox(width: 10),
                   FilterChip(
-                    label: Text('Próximo'),
+                    label: Text('Próximo', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                   SizedBox(width: 10),
                   FilterChip(
-                    label: Text('Mañana'),
+                    label: Text('Mañana', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                   SizedBox(width: 10),
                   FilterChip(
-                    label: Text('2:20'),
+                    label: Text('2:20', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                   SizedBox(width: 10),
                   FilterChip(
-                    label: Text('13:30'),
+                    label: Text('13:30', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                   SizedBox(width: 10),
                   FilterChip(
-                    label: Text('10:00'),
+                    label: Text('10:00', style: TextStyle(color: Colors.white),),
                     onSelected: (bool value) {},
+                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                   ),
                 ],
               ),

@@ -32,10 +32,12 @@ class _EventsListState extends State<EventsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -46,14 +48,14 @@ class _EventsListState extends State<EventsList> {
             icon: Image(
                 image: AssetImage('assets/bag.png'),
                 height: 22,
-                color: _selectedIndex == 1 ? Color(0xFFD36AE4) : Colors.grey),
+                color: _selectedIndex == 1 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Image(
                 image: AssetImage('assets/bell.png'),
                 height: 22,
-                color: _selectedIndex == 2 ? Color(0xFFD36AE4) : Colors.grey),
+                color: _selectedIndex == 2 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
             //FontAwesomeIcons.gamepad
             label: '',
           ),
@@ -61,12 +63,12 @@ class _EventsListState extends State<EventsList> {
             icon: Image(
                 image: AssetImage('assets/Pin.png'),
                 height: 22,
-                color: _selectedIndex == 3 ? Color(0xFFD36AE4) : Colors.grey),
+                color: _selectedIndex == 3 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
             label: '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFFD36AE4),
+        selectedItemColor: Theme.of(context).colorScheme.tertiary,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
@@ -119,6 +121,7 @@ class EventsListBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      
       padding: EdgeInsets.only(top: 50, right: 24, bottom: 0, left: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

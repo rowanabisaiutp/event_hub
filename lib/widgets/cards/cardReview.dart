@@ -50,7 +50,7 @@ class ReviewCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.star,
-                      color: Colors.purple,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                     SizedBox(width: 4),
                     Text(

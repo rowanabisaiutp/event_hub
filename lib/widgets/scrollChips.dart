@@ -14,7 +14,7 @@ class ScrollChips extends StatelessWidget {
               child: Text('Conferencias'),
             ),
             onSelected: (bool value) {},
-            backgroundColor: Color(0xFFD36AE4),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
@@ -29,7 +29,7 @@ class ScrollChips extends StatelessWidget {
               child: Text('Conciertos'),
             ),
             onSelected: (bool value) {},
-            backgroundColor: Color(0xFFD36AE4),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
@@ -44,7 +44,7 @@ class ScrollChips extends StatelessWidget {
               child: Text('Deportes'),
             ),
             onSelected: (bool value) {},
-            backgroundColor: Color(0xFFD36AE4),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
@@ -59,7 +59,7 @@ class ScrollChips extends StatelessWidget {
               child: Text('Teatro'),
             ),
             onSelected: (bool value) {},
-            backgroundColor: Color(0xFFD36AE4),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             selectedColor: Color(0xFFD36AE4),
             labelStyle: TextStyle(color: Colors.white),
             shape: RoundedRectangleBorder(
