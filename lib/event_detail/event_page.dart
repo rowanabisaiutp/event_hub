@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:digital_event_hub/reviews/reviews.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +99,7 @@ class EventPage extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Icon(Icons.access_time),
                         SizedBox(width: 4),
@@ -107,6 +107,16 @@ class EventPage extends StatelessWidget {
                         Spacer(),
                         Row(
                           children: [
+                            IconButton(
+                                icon: FaIcon(FontAwesomeIcons.commentDots),
+                                iconSize: 20.0,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ReviewsScreen()),
+                                  );
+                                }),
                             Icon(Icons.star,
                                 color: Color.fromARGB(255, 255, 238, 0)),
                             Text('4.8'),
@@ -128,12 +138,7 @@ class EventPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReviewsScreen()),
-                  );
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 214, 113, 229),
                   padding:

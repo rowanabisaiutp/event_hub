@@ -1,4 +1,5 @@
 import 'package:digital_event_hub/event_detail/event_page.dart';
+import 'package:digital_event_hub/history/purchase_history.dart';
 import 'package:digital_event_hub/home/header.dart';
 import 'package:digital_event_hub/map_event/map_event.dart';
 import 'package:digital_event_hub/notification/notif.dart';
@@ -17,6 +18,7 @@ class _EventsListState extends State<EventsList> {
 
   static List<Widget> _widgetOptions = <Widget>[
     EventsListBody(),
+    PurchaseHistoryPage(),
     NotificationBar(),
     GoogleMapScreen(),
   ];
@@ -34,23 +36,38 @@ class _EventsListState extends State<EventsList> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: Image(
+                image: AssetImage('assets/bag.png'),
+                height: 22,
+                color: _selectedIndex == 1 ? Color(0xFFD36AE4) : Colors.grey),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop_rounded),
+            icon: Image(
+                image: AssetImage('assets/bell.png'),
+                height: 22,
+                color: _selectedIndex == 2 ? Color(0xFFD36AE4) : Colors.grey),
             //FontAwesomeIcons.gamepad
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image(
+                image: AssetImage('assets/Pin.png'),
+                height: 22,
+                color: _selectedIndex == 3 ? Color(0xFFD36AE4) : Colors.grey),
             label: '',
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFD36AE4),
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );

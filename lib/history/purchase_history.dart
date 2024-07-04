@@ -131,7 +131,8 @@ class PurchaseHistoryPage extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.qr_code),
+                          icon: const Icon(Icons.qr_code, color: Color.fromARGB(
+                        255, 214, 113, 229),),
                           onPressed: () {},
                         ),
                       ],

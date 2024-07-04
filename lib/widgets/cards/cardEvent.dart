@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CardEvent extends StatelessWidget {
   final String title;
   final String img;
@@ -9,13 +8,7 @@ class CardEvent extends StatelessWidget {
   final String id;
 
   // Constructor
-  CardEvent(
-    this.title,
-    this.img,
-    this.ubication,
-    this.date,
-    this.id
-  );
+  CardEvent(this.title, this.img, this.ubication, this.date, this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +32,14 @@ class CardEvent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 Row(
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.location_on, color: Colors.grey, size: 17.0),
+                        Image(
+                            image: AssetImage('assets/Pin.png'),
+                            height: 17,
+                            color: Colors.grey),
                         SizedBox(width: 4.0),
                         Text(
                           ubication,
@@ -58,7 +53,8 @@ class CardEvent extends StatelessWidget {
                     Spacer(),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today, color: Colors.grey, size: 17.0),
+                        Icon(Icons.calendar_today,
+                            color: Colors.grey, size: 17.0),
                         SizedBox(width: 4.0),
                         Text(
                           date,
@@ -78,9 +74,6 @@ class CardEvent extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
-
-
               ],
             ),
           ),
