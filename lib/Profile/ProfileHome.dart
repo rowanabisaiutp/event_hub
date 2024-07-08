@@ -1,4 +1,6 @@
+import 'package:digital_event_hub/Profile/ApiServiceProfile.dart';
 import 'package:digital_event_hub/Profile/ProfileEdit.dart';
+import 'package:digital_event_hub/sesion/login/login.dart';
 import 'package:digital_event_hub/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,195 +13,235 @@ class ProfileHome extends StatefulWidget {
 class _ProfileHomeState extends State<ProfileHome> {
   int selectedIndex = -1; // Índice del tema seleccionado
 
+  ApiServiceProfile apiService = ApiServiceProfile();
+  Map<String, dynamic>? userData;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      final data = await apiService.fetchUserData();
+      setState(() {
+        userData = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white, // Cambia el color de fondo aquí
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ClipPath(
-                  clipper: NavbarClipper(),
-                  child: Container(
-                    height: 265.0,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.secondary,
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
-                ),
-                const Positioned(
-                  top: 100.0,
-                  left: 0,
-                  right: 0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              color: Colors.white, // Cambia el color de fondo aquí
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      SizedBox(height: 1),
-                      CircleAvatar(
-                        radius: 80.0,
-                        backgroundImage: AssetImage('assets/profile.png'),
+                      ClipPath(
+                        clipper: NavbarClipper(),
+                        child: Container(
+                          height: 265.0,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.secondary,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Positioned(
+                        top: 100.0,
+                        left: 0,
+                        right: 0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 1),
+                            CircleAvatar(
+                              radius: 80.0,
+                              backgroundImage: AssetImage('assets/profile.png'),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10.0),
-                    const Text(
-                      'Eider Pool',
-                      style: TextStyle(
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      'John@gmail.com',
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfileEdith()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 35, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ), // Color del botón
-                      ),
-                      child: const Text(
-                        'Editar Perfil',
-                        style: TextStyle(color: Colors.white, fontSize: 25.0),
-                      ),
-                    ),
-                    const SizedBox(height: 42.0),
-                    const Text(
-                      'Numero de telefono',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Text(
-                      '+52(999)929737',
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    const Text(
-                      'Contraseña',
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Text(
-                      '****************',
-                      style: TextStyle(
-                        fontSize: 23.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 90.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(4, (index) {
-                        final themeColors = [
-                          Color.fromARGB(255, 214, 113, 229),
-                          Colors.pink.shade100,
-                          Colors.purple.shade100,
-                          Colors.blue.shade100,
-                        ];
-
-                        final themes = [
-                          theme1,
-                          theme2,
-                          theme3,
-                          theme4,
-                        ];
-
-                        return Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Provider.of<ThemeNotifier>(context, listen: false)
-                                    .setTheme(themes[index]);
-                                setState(() {
-                                  selectedIndex = index; // Actualiza el índice seleccionado
-                                });
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 25.0,
-                                    backgroundColor: themeColors[index],
-                                  ),
-                                  if (selectedIndex == index)
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    ),
-                                ],
-                              ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10.0),
+                          Text(
+                            userData?['nombre'] ?? 'Nombre no disponible',
+                            style: const TextStyle(
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(width: 10.0),
-                          ],
-                        );
-                      }),
-                    ),
-                    const SizedBox(height: 83.0),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 90, vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ), // Color del botón
+                          ),
+                          Text(
+                            userData?['email'] ?? 'Correo no disponible',
+                            style: const TextStyle(
+                              fontSize: 23.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileEdith()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 35, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ), // Color del botón
+                            ),
+                            child: const Text(
+                              'Editar Perfil',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 25.0),
+                            ),
+                          ),
+                          const SizedBox(height: 42.0),
+                          const Text(
+                            'Numero de telefono',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            userData?['telefono'] ?? 'Teléfono no disponible',
+                            style: const TextStyle(
+                              fontSize: 23.0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20.0),
+                          const Text(
+                            'Contraseña',
+                            style: TextStyle(
+                              fontSize: 23.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10.0),
+                          const Text(
+                            '****************',
+                            style: TextStyle(
+                              fontSize: 23.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 90.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(4, (index) {
+                              final themeColors = [
+                                Color.fromARGB(255, 214, 113, 229),
+                                Colors.pink.shade100,
+                                Colors.purple.shade100,
+                                Colors.blue.shade100,
+                              ];
+
+                              final themes = [
+                                theme1,
+                                theme2,
+                                theme3,
+                                theme4,
+                              ];
+
+                              return Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Provider.of<ThemeNotifier>(context,
+                                              listen: false)
+                                          .setTheme(themes[index]);
+                                      setState(() {
+                                        selectedIndex =
+                                            index; // Actualiza el índice seleccionado
+                                      });
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundColor: themeColors[index],
+                                        ),
+                                        if (selectedIndex == index)
+                                          const Icon(
+                                            Icons.check,
+                                            color: Colors.white,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10.0),
+                                ],
+                              );
+                            }),
+                          ),
+                          const SizedBox(height: 83.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignInScreen()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.tertiary,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 90, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ), // Color del botón
+                            ),
+                            child: const Text(
+                              'Cerrar sesión',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 25.0),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: const Text(
-                        'Cerrar sesión',
-                        style: TextStyle(color: Colors.white, fontSize: 25.0),
-                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
