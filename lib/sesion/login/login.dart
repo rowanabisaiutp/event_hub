@@ -1,5 +1,6 @@
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:digital_event_hub/sesion/create_count/create_count.dart';
+import 'package:digital_event_hub/sesion/recover_pass/confirm_email.dart';
 import 'package:digital_event_hub/sesion/recover_pass/recover_pass.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class SignInScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RecoverPass(),
+                            builder: (context) => ConfirmEmail(),
                           ));
                     },
                     child: Text(
