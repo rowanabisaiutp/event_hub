@@ -1,17 +1,19 @@
 import 'dart:convert';
 
+import 'package:digital_event_hub/sesion/recover_pass/recover_pass.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_event_hub/sesion/login/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class RecoverPass extends StatelessWidget {
+
+class ConfirmEmail extends StatelessWidget {
   //const name({super.key});
 
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final url = Uri.parse('http://10.0.2.2:5000/api/forgot-password/');
 
-  final url = Uri.parse('http://10.0.2.2:5000/api/reset-password/629cc839f6bb29617fe6cb84610a869f919db3d9/');
+  
 
   void _showConfirmationDialog(BuildContext context) {
     showDialog(
@@ -72,27 +74,43 @@ class RecoverPass extends StatelessWidget {
                   height: 20,
                 ),
                 TextField(
-                  controller: _passwordController,
-                  obscureText: true, // Hide password input
+                  controller: _emailController,
                   decoration: InputDecoration(
-                    labelText: 'Contraseña nueva',
-                    border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-                  )
+                      labelText: 'Ingrese su e-mail',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0))),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(
+                  height: 10,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecoverPass(),
+                          ));
+                    },
+                    child: Text(
+                      'Olvide mi contraseña',
+                      style: TextStyle(color: Colors.pinkAccent),
+                    ),
+                  ),
+                ),
                 GradientButton(
-                  text: 'Confirmar cambio',
+                  text: 'Enviar email',
                   gradient: LinearGradient(
                     colors: [
                       Color.fromARGB(255, 212, 172, 255),
-                      Color.fromARGB(255, 162, 0, 255),
+                      Color.fromARGB(255, 162, 0, 255)
                     ],
                   ),
                   onPressed: () async {
-                    String password = _passwordController.text;
+                    String email = _emailController.text;
                     Map<String, dynamic> data = {
-                      'newPassword': password,
+                      'email': email,
                     };
                     String jsonData = jsonEncode(data);
 
@@ -105,11 +123,12 @@ class RecoverPass extends StatelessWidget {
                     );
 
                     if (response.statusCode == 200) {
+                      // Procesar la respuesta exitosa
+                      print('Petición POST exitosa');
                       var decodedResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
                       print('Respuesta: $decodedResponse');
-                      // Handle successful password change (e.g., show confirmation message)
                     } else {
-                      // Handle error (e.g., show error message)
+                      // Manejar el error
                       print('Error: ${response.statusCode}');
                     }
                   },
