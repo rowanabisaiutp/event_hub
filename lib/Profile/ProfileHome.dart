@@ -92,14 +92,14 @@ class _ProfileHomeState extends State<ProfileHome> {
                       Text(
                         userData?['nombre'] ?? 'Nombre no disponible',
                         style: const TextStyle(
-                          fontSize: 40.0,
+                          fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         userData?['email'] ?? 'Correo no disponible',
                         style: const TextStyle(
-                          fontSize: 23.0,
+                          fontSize: 18.0,
                           color: Colors.grey,
                         ),
                       ),

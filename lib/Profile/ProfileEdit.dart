@@ -16,6 +16,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+    final TextEditingController _contrasenaController = TextEditingController();
 
   ApiServiceProfile apiService = ApiServiceProfile();
   bool _isLoading = true;
@@ -56,6 +57,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
         'nombre': _nameController.text,
         'email': _emailController.text,
         'telefono': _phoneController.text,
+        'contrasena': _contrasenaController.text,
       };
       await apiService.updateUserData(updatedData);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,6 +89,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _contrasenaController.dispose();
     super.dispose();
   }
 
@@ -209,8 +212,8 @@ class _ProfileEdithState extends State<ProfileEdith> {
                       _buildProfileTextField(
                           Icons.phone, '+52(999)929737', _phoneController),
                       const SizedBox(height: 20),
-                      _buildProfileTextField(Icons.lock, '*************', null,
-                          obscureText: true),
+                      _buildProfileTextField(Icons.lock, '*************', _contrasenaController,
+                          obscureText: false),
                       const Spacer(flex: 3),
                     ],
                   ),
