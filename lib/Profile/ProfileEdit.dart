@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 import 'ApiServiceProfile.dart';
 import 'ProfileHome.dart';
 
@@ -11,12 +13,13 @@ class ProfileEdith extends StatefulWidget {
 
 class _ProfileEdithState extends State<ProfileEdith> {
   File? _image;
+  String? _imageUrl;
   final String _defaultImagePath = 'assets/profile.png';
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-    final TextEditingController _contrasenaController = TextEditingController();
+  final TextEditingController _contrasenaController = TextEditingController();
 
   ApiServiceProfile apiService = ApiServiceProfile();
   bool _isLoading = true;
@@ -25,13 +28,23 @@ class _ProfileEdithState extends State<ProfileEdith> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+
+      // Guarda la imagen seleccionada en la memoria interna
+      final directory = await getApplicationDocumentsDirectory();
+      final String dirPath = directory.path;
+      final String fileName = path.basename(pickedFile.path);
+      final File localImage = await imageFile.copy('$dirPath/$fileName');
+
+      setState(() {
+        _image = localImage;
+        _imageUrl = localImage.path; // Guarda la URL de la imagen
+        print('Image path: $_imageUrl');
+      });
+    } else {
+      print('No image selected.');
+    }
   }
 
   Future<void> _fetchUserData() async {
@@ -41,6 +54,7 @@ class _ProfileEdithState extends State<ProfileEdith> {
         _nameController.text = userData['nombre'];
         _emailController.text = userData['email'];
         _phoneController.text = userData['telefono'];
+        _imageUrl = userData['fotoPerfil']; // Asigna la URL de la imagen existente
         _isLoading = false;
       });
     } catch (e) {
@@ -58,13 +72,13 @@ class _ProfileEdithState extends State<ProfileEdith> {
         'email': _emailController.text,
         'telefono': _phoneController.text,
         'contrasena': _contrasenaController.text,
+        'fotoPerfil': _imageUrl,
       };
       await apiService.updateUserData(updatedData);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Center(child: Text('Perfil actualizado exitosamente')),
           backgroundColor: Theme.of(context).colorScheme.tertiary,
-          
         ),
       );
       Navigator.push(
@@ -113,7 +127,9 @@ class _ProfileEdithState extends State<ProfileEdith> {
                             CircleAvatar(
                               radius: 80,
                               backgroundImage: _image == null
-                                  ? AssetImage(_defaultImagePath)
+                                  ? _imageUrl == null
+                                      ? AssetImage(_defaultImagePath)
+                                      : FileImage(File(_imageUrl!))
                                   : FileImage(_image!) as ImageProvider,
                             ),
                             Positioned(

@@ -5,6 +5,7 @@ import 'package:digital_event_hub/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'dart:io';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                       ),
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 100.0,
                     left: 0,
                     right: 0,
@@ -77,7 +78,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                         SizedBox(height: 1),
                         CircleAvatar(
                           radius: 80.0,
-                          backgroundImage: AssetImage('assets/profile.png'),
+                          backgroundImage: userData?['fotoPerfil'] != null
+                              ? FileImage(File(userData!['fotoPerfil']))
+                              : AssetImage('assets/profile.png') as ImageProvider,
                         ),
                       ],
                     ),
