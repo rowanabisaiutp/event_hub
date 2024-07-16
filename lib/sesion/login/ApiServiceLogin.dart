@@ -1,19 +1,20 @@
-// lib/services/api_service_count.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ApiServiceCount {
+class ApiServiceLogin {
   final String apiUrl = "url";
 
-  Future<void> register(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> login(Map<String, dynamic> data) async {
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(data),
     );
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != 200) {
       throw Exception('Failed to create account');
     }
+
+    return json.decode(response.body);
   }
 }

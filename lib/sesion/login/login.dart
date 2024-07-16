@@ -1,10 +1,40 @@
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:digital_event_hub/sesion/create_count/create_count.dart';
+import 'package:digital_event_hub/sesion/login/ApiServiceLogin.dart';
 import 'package:digital_event_hub/sesion/recover_pass/confirm_email.dart';
-import 'package:digital_event_hub/sesion/recover_pass/recover_pass.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final ApiServiceLogin _apiServiceLogin = ApiServiceLogin();
+
+  void _login(BuildContext context) async {
+    final Map<String, dynamic> data = {
+      'email': _emailController.text,
+      'contrasena': _passwordController.text,
+    };
+
+    try {
+      final response = await _apiServiceLogin.login(data);
+      if (response.containsKey('token')) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventsList()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Center(child: Text('Error al iniciar sesión'))),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Center(child: Text('Error al iniciar sesión: ${e.toString()}'))),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +52,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Correo o username...',
                     border: OutlineInputBorder(
@@ -31,6 +62,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 TextField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Contraseña...',
@@ -44,13 +76,12 @@ class SignInScreen extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ConfirmEmail(),
-                          ));
+                        context,
+                        MaterialPageRoute(builder: (context) => ConfirmEmail()),
+                      );
                     },
                     child: Text(
-                      'Olvide mi contraseña',
+                      'Olvidé mi contraseña',
                       style: TextStyle(color: Colors.pinkAccent),
                     ),
                   ),
@@ -61,18 +92,10 @@ class SignInScreen extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       Color.fromARGB(255, 212, 172, 255),
-                      Color.fromARGB(255, 162, 0, 255)
+                      Color.fromARGB(255, 162, 0, 255),
                     ],
                   ),
-                  onPressed: () {
-                    //
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EventsList(),
-                      ),
-                    );
-                  },
+                  onPressed: () => _login(context),
                 ),
                 SizedBox(height: 10),
                 GradientButton(
@@ -80,12 +103,14 @@ class SignInScreen extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       Color.fromARGB(255, 153, 0, 255),
-                      Color.fromARGB(255, 218, 163, 255)
+                      Color.fromARGB(255, 218, 163, 255),
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CreateCount()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CreateCount()),
+                    );
                   },
                 ),
                 SizedBox(height: 20),

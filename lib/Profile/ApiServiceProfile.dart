@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiServiceProfile {
-  final String apiUrl = "url to your api";
+  final String apiUrl = "url";
 
   Future<Map<String, dynamic>> fetchUserData() async {
     final response = await http.get(Uri.parse(apiUrl));

@@ -76,9 +76,8 @@ class _ProfileEdithState extends State<ProfileEdith> {
       };
       await apiService.updateUserData(updatedData);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Center(child: Text('Perfil actualizado exitosamente')),
-          backgroundColor: Theme.of(context).colorScheme.tertiary,
+        const SnackBar(
+          content: Center(child: Text('Perfil actualizado exitosamente')),
         ),
       );
       Navigator.push(

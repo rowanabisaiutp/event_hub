@@ -31,11 +31,11 @@ class _CreateCountState extends State<CreateCount> {
     try {
       await _apiServiceCount.register(data);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cuenta creada exitosamente')),
+        SnackBar(content: Center(child: Text('Cuenta creada exitosamente'))),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al crear la cuenta: ${e.toString()}')),
+        SnackBar(content: Center(child: Text('Error al crear la cuenta: ${e.toString()}'))),
       );
     }
   }
