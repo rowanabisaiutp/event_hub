@@ -113,20 +113,7 @@ class SignInScreen extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(backgroundColor: Colors.blue, radius: 20),
-                    SizedBox(width: 10),
-                    CircleAvatar(backgroundColor: Colors.redAccent, radius: 20),
-                    SizedBox(width: 10),
-                    CircleAvatar(backgroundColor: Colors.black, radius: 20),
-                    SizedBox(width: 10),
-                    CircleAvatar(
-                        backgroundColor: Colors.blueAccent, radius: 20),
-                  ],
-                ),
+
               ],
             ),
           ),

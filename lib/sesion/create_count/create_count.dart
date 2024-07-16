@@ -16,8 +16,6 @@ class _CreateCountState extends State<CreateCount> {
 
   final ApiServiceCount _apiServiceCount = ApiServiceCount();
 
-  int _selectedRole = 1; // Valor por defecto
-
   void _register(BuildContext context) async {
     final Map<String, dynamic> data = {
       'nombre': _nameController.text,
@@ -25,7 +23,7 @@ class _CreateCountState extends State<CreateCount> {
       'last_name': _lastNameController.text,
       'contrasena': _passwordController.text,
       'telefono': _phoneController.text,
-      'rol_id': _selectedRole,
+      'rol_id': 1,
     };
 
     try {
@@ -35,7 +33,9 @@ class _CreateCountState extends State<CreateCount> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Center(child: Text('Error al crear la cuenta: ${e.toString()}'))),
+        SnackBar(
+            content: Center(
+                child: Text('Error al crear la cuenta: ${e.toString()}'))),
       );
     }
   }
@@ -79,6 +79,16 @@ class _CreateCountState extends State<CreateCount> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  controller: _lastNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Apellidos',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -89,9 +99,9 @@ class _CreateCountState extends State<CreateCount> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  controller: _lastNameController,
+                  controller: _phoneController,
                   decoration: InputDecoration(
-                    labelText: 'Apellidos',
+                    labelText: 'Telefono',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
@@ -107,41 +117,6 @@ class _CreateCountState extends State<CreateCount> {
                     ),
                   ),
                   obscureText: true,
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _phoneController,
-                  decoration: InputDecoration(
-                    labelText: 'Telefono',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                DropdownButtonFormField<int>(
-                  value: _selectedRole,
-                  decoration: InputDecoration(
-                    labelText: 'Rol',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text('Usuario'),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text('Organizador'),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedRole = value!;
-                    });
-                  },
                 ),
                 const SizedBox(height: 30),
                 GradientButton(
