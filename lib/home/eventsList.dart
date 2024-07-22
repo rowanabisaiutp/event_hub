@@ -87,7 +87,7 @@ class _EventsListState extends State<EventsList> {
 List<Map<String, String>> datos = [
   {
     'title': 'Evento de lanzamiento',
-    'img': 'https://i.blogs.es/0ca9a6/aa/1366_2000.webp',
+    'img': 'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
     'ubication': 'Ciudad de Ejemplo',
     'date': '2024-07-01',
     'id': '1',
@@ -95,14 +95,14 @@ List<Map<String, String>> datos = [
   {
     'title': 'Conferencia Virtual',
     'img':
-        'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
+        'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
     'ubication': 'Online',
     'date': '2024-07-15',
     'id': '2',
   },
   {
     'title': 'Evento de lanzamiento',
-    'img': 'https://i.blogs.es/0ca9a6/aa/1366_2000.webp',
+    'img': 'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
     'ubication': 'Ciudad de Ejemplo',
     'date': '2024-07-01',
     'id': '1',
@@ -110,7 +110,7 @@ List<Map<String, String>> datos = [
   {
     'title': 'Conferencia Virtual',
     'img':
-        'https://enriccompany.com/wp-content/uploads/2022/05/Contratar-conferenciantes.jpeg',
+        'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
     'ubication': 'Online',
     'date': '2024-07-15',
     'id': '2',
