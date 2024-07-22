@@ -3,7 +3,7 @@ import 'package:digital_event_hub/escenarios/symbology.dart';
 import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/material.dart';
 
-class Escenariohome extends StatelessWidget {
+class Escenario1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Obtenemos el tamaño de la pantalla
@@ -25,7 +25,7 @@ class Escenariohome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(),
+            Eventbuy(),//Componente de la compra
             const SizedBox(height: 16.0),
             const Divider(
               height: 40,
@@ -35,21 +35,35 @@ class Escenariohome extends StatelessWidget {
               endIndent: 0,
             ),
             Center(
-              child: Symbology(),
+              child: Symbology(),//Componente de la simbologia
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 80),
             Expanded(
-              child: Asientos(),
+              child: Stack(
+                children: [
+                  Image.asset( //Imagen solo del escenario
+                    'assets/stage.png', 
+                    fit: BoxFit.contain,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 140), 
+                      child: Asientos(),//Componente de los asientos
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                     padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding, vertical: 14),
+                        horizontal: horizontalPadding, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

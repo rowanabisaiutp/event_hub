@@ -6,14 +6,14 @@ class Asientos extends StatefulWidget {
 }
 
 class _AsientosState extends State<Asientos> {
-  final int totalSeats = 54; // Número total de asientos
+  final int totalSeats = 44; // Número total de asientos
   final int seatsPerRow = 10; // Número de asientos por fila
   Set<int> selectedSeats = Set<int>();
 
   @override
   Widget build(BuildContext context) {
     int numRows = (totalSeats / seatsPerRow).ceil(); // Número de filas necesarias
-    double seatSize = (MediaQuery.of(context).size.width - 20) / seatsPerRow - 12;
+    double seatSize = (MediaQuery.of(context).size.width - 20) / seatsPerRow - 14;
 
     return Column(
       children: List.generate(numRows, (rowIndex) {
@@ -46,7 +46,7 @@ class _AsientosState extends State<Asientos> {
                   width: seatSize,
                   height: seatSize,
                   margin: EdgeInsets.all(2),
-                  color: isSelected ? Colors.blue : Colors.grey,
+                  color: isSelected ? Colors.blue : const Color.fromRGBO(158, 158, 158, 1),
                   child: Center(
                     child: isSelected ? Text(seatIndex.toString(), style: TextStyle(color: Colors.white)) : null,
                   ),

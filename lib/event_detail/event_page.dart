@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:digital_event_hub/escenarios/escenariohome.dart';
+import 'package:digital_event_hub/escenarios/escenario1.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:digital_event_hub/reviews/reviews.dart';
@@ -149,7 +149,7 @@ class EventPage extends StatelessWidget {
                 onPressed: () {
                               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Escenariohome()),
+              MaterialPageRoute(builder: (context) => Escenario1()),
             );
                 },
                 style: ElevatedButton.styleFrom(
