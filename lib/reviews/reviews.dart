@@ -121,6 +121,7 @@ class ReviewsScreen extends StatelessWidget  {
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         title: Text('Reseñas', style: TextStyle(color: Colors.white)),
         centerTitle: true,
+         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 40, right: 24, bottom: 0, left: 24),

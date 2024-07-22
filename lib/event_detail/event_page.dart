@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:digital_event_hub/escenarios/escenariohome.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:digital_event_hub/reviews/reviews.dart';
@@ -44,7 +45,7 @@ class EventPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset(
-                            'assets/Mask group.png',
+                            'assets/eventolocal.png',
                             width: double.infinity,
                             height: 500,
                             fit: BoxFit.cover,
@@ -70,7 +71,7 @@ class EventPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Brawl Stars Tournament',
+                                      'Time Stars Tournament',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -145,7 +146,12 @@ class EventPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Escenariohome()),
+            );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
                   padding:

@@ -12,8 +12,8 @@ class EventCali extends StatelessWidget {
           width: 100,
           height: 110,
           margin: EdgeInsets.only(right: 10),
-          child: Image.network(
-            'https://i.blogs.es/0ca9a6/aa/1366_2000.webp',
+          child: Image.asset(
+            'assets/eventolocal.png',
             fit: BoxFit.cover,
           ),
         ),
