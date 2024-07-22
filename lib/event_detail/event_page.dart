@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:digital_event_hub/buy_page/buy_page.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:digital_event_hub/reviews/reviews.dart';
@@ -145,7 +146,12 @@ class EventPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MetodoPagoScreen()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
                   padding:

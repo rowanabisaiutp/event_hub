@@ -3,11 +3,12 @@ import 'package:digital_event_hub/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(  ChangeNotifierProvider(
-      create: (_) => ThemeNotifier(theme1),
-      child: MyApp(),
-    ),);
-
+void main() => runApp(
+      ChangeNotifierProvider(
+        create: (_) => ThemeNotifier(theme1),
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   @override
