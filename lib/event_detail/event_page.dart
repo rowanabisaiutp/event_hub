@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:digital_event_hub/buy_page/buy_page.dart';
 import 'package:digital_event_hub/escenarios/escenario1.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -148,10 +147,6 @@ class EventPage extends StatelessWidget {
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MetodoPagoScreen()));
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Escenario1()),

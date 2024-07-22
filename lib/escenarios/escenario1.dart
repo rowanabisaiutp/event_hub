@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/buy_page/buy_page.dart';
 import 'package:digital_event_hub/escenarios/asientos.dart';
 import 'package:digital_event_hub/escenarios/symbology.dart';
 import 'package:digital_event_hub/reviews/eventBuy.dart';
@@ -25,7 +26,7 @@ class Escenario1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(),//Componente de la compra
+            Eventbuy(), //Componente de la compra
             const SizedBox(height: 16.0),
             const Divider(
               height: 40,
@@ -35,21 +36,21 @@ class Escenario1 extends StatelessWidget {
               endIndent: 0,
             ),
             Center(
-              child: Symbology(),//Componente de la simbologia
+              child: Symbology(), //Componente de la simbologia
             ),
             const SizedBox(height: 80),
             Expanded(
               child: Stack(
                 children: [
-                  Image.asset( //Imagen solo del escenario
-                    'assets/stage.png', 
+                  Image.asset(
+                    //Imagen solo del escenario
+                    'assets/stage.png',
                     fit: BoxFit.contain,
                   ),
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 140), 
-                      child: Asientos(),//Componente de los asientos
+                      padding: const EdgeInsets.only(top: 140),
+                      child: Asientos(), //Componente de los asientos
                     ),
                   ),
                 ],
@@ -59,7 +60,12 @@ class Escenario1 extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MetodoPagoScreen()));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
                     padding: EdgeInsets.symmetric(
