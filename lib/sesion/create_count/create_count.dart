@@ -35,7 +35,7 @@ class _CreateCountState extends State<CreateCount> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Center(
-                child: Text('Error al crear la cuenta: ${e.toString()}'))),
+                child: Text('Error al crear la cuenta, intente de nuevo'))),
       );
     }
   }

@@ -15,18 +15,20 @@ class ThemeNotifier with ChangeNotifier {
 
 final ThemeData theme1 = ThemeData(
   colorScheme: ColorScheme.fromSwatch().copyWith(
+      primary: Color.fromARGB(255, 167, 106, 228),
+      secondary: Color.fromARGB(66, 194, 148, 232),
+      tertiary: const Color.fromARGB(255, 167, 106, 228),),
+);
+
+final ThemeData theme2 = ThemeData(
+  colorScheme: ColorScheme.fromSwatch().copyWith(
       primary: const Color(0xFFD36AE4),
       secondary: const Color(0x42E894BC),
       tertiary:
           const Color.fromARGB(255, 214, 113, 229) //Color para los botones
       ),
 );
-final ThemeData theme2 = ThemeData(
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-      primary: const Color.fromARGB(255, 228, 106, 204),
-      secondary: const Color.fromARGB(66, 232, 148, 218),
-      tertiary: const Color.fromARGB(255, 229, 113, 208)),
-);
+
 final ThemeData theme3 = ThemeData(
   colorScheme: ColorScheme.fromSwatch().copyWith(
       primary: const Color.fromARGB(255, 212, 106, 228),

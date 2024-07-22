@@ -30,7 +30,7 @@ class SignInScreen extends StatelessWidget {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Center(child: Text('Error al iniciar sesión: ${e.toString()}'))),
+        SnackBar(content: Center(child: Text('Error al iniciar sesión'))),
       );
     }
   }
