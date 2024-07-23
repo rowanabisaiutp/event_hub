@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/history/qr/qr_screen.dart';
 import 'package:flutter/material.dart';
 
 class PurchaseHistoryPage extends StatelessWidget {
@@ -134,7 +135,14 @@ class PurchaseHistoryPage extends StatelessWidget {
                         ),
                         IconButton(
                           icon: Icon(Icons.qr_code, color: Theme.of(context).colorScheme.tertiary,),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QRScreen()
+                              )
+                            );
+                          },
                         ),
                       ],
                     ),
