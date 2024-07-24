@@ -1,5 +1,3 @@
-import 'package:digital_event_hub/escenarios/asientos.dart';
-import 'package:digital_event_hub/escenarios/symbology.dart';
 import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';

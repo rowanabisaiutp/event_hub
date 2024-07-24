@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiServiceCount {
-  final String apiUrl = "http://10.0.2.2:5000/api/register";
+  final String apiUrl = "http://10.2.2.0:5000/api/register";
 
   Future<void> register(Map<String, dynamic> data) async {
     final response = await http.post(

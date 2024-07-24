@@ -1,13 +1,18 @@
 import 'dart:ui';
 import 'package:digital_event_hub/escenarios/escenario1.dart';
+import 'package:digital_event_hub/event_detail/comentarios.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:digital_event_hub/reviews/reviews.dart';
 import 'package:flutter/material.dart';
 
-class EventPage extends StatelessWidget {
+class EventPage extends StatefulWidget {
   const EventPage({super.key});
 
+  @override
+  _EventPageState createState() => _EventPageState();
+}
+
+class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,15 +61,13 @@ class EventPage extends StatelessWidget {
                           left: 20,
                           right: 20,
                           child: ClipRRect(
-                            // Necesario para que el BackdropFilter funcione correctamente
                             borderRadius: BorderRadius.circular(15.0),
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
                               child: Container(
                                 padding: const EdgeInsets.all(25.0),
                                 decoration: BoxDecoration(
-                                  color: const Color(
-                                      0x4D1D1D1D), // Color con 30% de opacidad
+                                  color: const Color(0x4D1D1D1D), // Color con 30% de opacidad
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: const Column(
@@ -80,8 +83,7 @@ class EventPage extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.location_on,
-                                            color: Colors.white, size: 16),
+                                        Icon(Icons.location_on, color: Colors.white, size: 16),
                                         SizedBox(width: 4),
                                         Text(
                                           'Teatro Armando Manzanero, Yuc.',
@@ -104,8 +106,7 @@ class EventPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     const Text(
                       'Descripción general',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
@@ -116,17 +117,13 @@ class EventPage extends StatelessWidget {
                         Row(
                           children: [
                             IconButton(
-                                icon: FaIcon(FontAwesomeIcons.commentDots),
-                                iconSize: 20.0,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ReviewsScreen()),
-                                  );
-                                }),
-                            Icon(Icons.star,
-                                color: Color.fromARGB(255, 255, 238, 0)),
+                              icon: FaIcon(FontAwesomeIcons.commentDots),
+                              iconSize: 20.0,
+                              onPressed: () {
+                                Comentarios(context, this);
+                              }
+                            ),
+                            Icon(Icons.star, color: Color.fromARGB(255, 255, 238, 0)),
                             Text('4.8'),
                           ],
                         ),
@@ -154,8 +151,7 @@ class EventPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
+                  padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
