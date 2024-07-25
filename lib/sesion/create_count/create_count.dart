@@ -23,7 +23,7 @@ class _CreateCountState extends State<CreateCount> {
       'last_name': _lastNameController.text,
       'contrasena': _passwordController.text,
       'telefono': _phoneController.text,
-      'rol_id': 1,
+      'rol_id': 2,
     };
 
     try {

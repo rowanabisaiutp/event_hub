@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiServiceLogin {
-  final String apiUrl = "http://10.2.2.0:5000/api/login";
+  final String apiUrl = "https://api-digitalevent.onrender.com/api/auth/login";
 
   Future<Map<String, dynamic>> login(Map<String, dynamic> data) async {
     final response = await http.post(

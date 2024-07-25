@@ -118,13 +118,13 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                           children: [
                             IconButton(
                               icon: FaIcon(FontAwesomeIcons.commentDots),
-                              iconSize: 20.0,
+                              iconSize: 30.0,
                               onPressed: () {
                                 Comentarios(context, this);
                               }
                             ),
-                            Icon(Icons.star, color: Color.fromARGB(255, 255, 238, 0)),
-                            Text('4.8'),
+                            Icon(Icons.star,size: 35 ,color: Color.fromARGB(255, 255, 238, 0)),
+                            Text('4.8',style: TextStyle(fontSize: 20),)
                           ],
                         ),
                       ],
