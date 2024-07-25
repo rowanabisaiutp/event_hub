@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:digital_event_hub/sesion/login/idUser.dart';
 import 'package:http/http.dart' as http;
 
+
 class ApiServiceProfile {
-  final String apiUrl = "https://api-digitalevent.onrender.com/api/users/10";
+  String get apiUrl => "https://api-digitalevent.onrender.com/api/users/${UserSession().userId}";
 
   Future<Map<String, dynamic>> fetchUserData() async {
     final response = await http.get(Uri.parse(apiUrl));
