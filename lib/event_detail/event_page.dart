@@ -67,7 +67,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                               child: Container(
                                 padding: const EdgeInsets.all(25.0),
                                 decoration: BoxDecoration(
-                                  color: const Color(0x4D1D1D1D), // Color con 30% de opacidad
+                                  color: const Color(
+                                      0x4D1D1D1D), // Color con 30% de opacidad
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: const Column(
@@ -83,7 +84,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.location_on, color: Colors.white, size: 16),
+                                        Icon(Icons.location_on,
+                                            color: Colors.white, size: 16),
                                         SizedBox(width: 4),
                                         Text(
                                           'Teatro Armando Manzanero, Yuc.',
@@ -106,7 +108,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                     const SizedBox(height: 16),
                     const Text(
                       'Descripción general',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
@@ -117,14 +120,18 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                         Row(
                           children: [
                             IconButton(
-                              icon: FaIcon(FontAwesomeIcons.commentDots),
-                              iconSize: 30.0,
-                              onPressed: () {
-                                Comentarios(context, this);
-                              }
-                            ),
-                            Icon(Icons.star,size: 35 ,color: Color.fromARGB(255, 255, 238, 0)),
-                            Text('4.8',style: TextStyle(fontSize: 20),)
+                                icon: FaIcon(FontAwesomeIcons.commentDots),
+                                iconSize: 30.0,
+                                onPressed: () {
+                                  Comentarios(context, this);
+                                }),
+                            Icon(Icons.star,
+                                size: 35,
+                                color: Color.fromARGB(255, 255, 238, 0)),
+                            Text(
+                              '4.8',
+                              style: TextStyle(fontSize: 20),
+                            )
                           ],
                         ),
                       ],
@@ -151,7 +158,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
-                  padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

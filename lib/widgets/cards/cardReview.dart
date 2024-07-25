@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ReviewCard extends StatelessWidget {
-
   final String username;
   final String img;
   final String qualification;
@@ -10,13 +9,7 @@ class ReviewCard extends StatelessWidget {
 
   // Constructor
   ReviewCard(
-    this.username,
-    this.img,
-    this.qualification,
-    this.title,
-    this.text
-  );
-
+      this.username, this.img, this.qualification, this.title, this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +57,20 @@ class ReviewCard extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 5),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
             SizedBox(height: 10),
             Text(
               title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 13,
+                color: Color.fromARGB(255, 173, 173, 173),
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 4),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
               ),
             ),
           ],

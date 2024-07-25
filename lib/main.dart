@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, theme, child) {
         return MaterialApp(
           theme: theme.currentTheme,
+          debugShowCheckedModeBanner: false,
           home: SignInScreen(),
         );
       },
