@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:digital_event_hub/Profile/ApiServiceProfile.dart';
 import 'package:digital_event_hub/event_detail/event_page.dart';
 import 'package:digital_event_hub/history/purchase_history.dart';
 import 'package:digital_event_hub/home/header.dart';
@@ -7,6 +10,8 @@ import 'package:digital_event_hub/widgets/cards/cardEvent.dart';
 import 'package:digital_event_hub/widgets/scrollChips.dart';
 import 'package:digital_event_hub/widgets/searchInput.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:skeletonizer/skeletonizer.dart';
 
 class EventsList extends StatefulWidget {
   @override
@@ -84,40 +89,98 @@ class _EventsListState extends State<EventsList> {
 //   State<EventsListBody> createState() => _EventsListBodyState();
 // }
 
-List<Map<String, String>> datos = [
-  {
-    'title': 'Evento de lanzamiento',
-    'img': 'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
-    'ubication': 'Ciudad de Ejemplo',
-    'date': '2024-07-01',
-    'id': '1',
-  },
-  {
-    'title': 'Conferencia Virtual',
-    'img':
-        'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
-    'ubication': 'Online',
-    'date': '2024-07-15',
-    'id': '2',
-  },
-  {
-    'title': 'Evento de lanzamiento',
-    'img': 'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
-    'ubication': 'Ciudad de Ejemplo',
-    'date': '2024-07-01',
-    'id': '1',
-  },
-  {
-    'title': 'Conferencia Virtual',
-    'img':
-        'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
-    'ubication': 'Online',
-    'date': '2024-07-15',
-    'id': '2',
-  },
-];
+// List<Map<String, String>> datos = [
+//   {
+//     'title': 'Evento de lanzamiento',
+//     'img': 'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
+//     'ubication': 'Ciudad de Ejemplo',
+//     'date': '2024-07-01',
+//     'id': '1',
+//   },
+//   {
+//     'title': 'Conferencia Virtual',
+//     'img':
+//         'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
+//     'ubication': 'Online',
+//     'date': '2024-07-15',
+//     'id': '2',
+//   },
+//   {
+//     'title': 'Evento de lanzamiento',
+//     'img': 'https://www.latevaweb.com/diseno-web/webs-para-eventos.jpg',
+//     'ubication': 'Ciudad de Ejemplo',
+//     'date': '2024-07-01',
+//     'id': '1',
+//   },
+//   {
+//     'title': 'Conferencia Virtual',
+//     'img':
+//         'https://e.radio-grpp.io/normal/2016/08/17/553455_221714.png',
+//     'ubication': 'Online',
+//     'date': '2024-07-15',
+//     'id': '2',
+//   },
+// ];
 
-class EventsListBody extends StatelessWidget {
+class EventsListBody extends StatefulWidget {
+  @override
+  State<EventsListBody> createState() => _EventsListBodyState();
+}
+
+class _EventsListBodyState extends State<EventsListBody> {
+  
+  bool isLoading = true;
+  List<dynamic>datos = [];
+  String selectedCategory = '';
+  final List<String> categories = ['Tecnología', 'Deportes', 'Cine', 'Teatro'];
+
+  Future<void> fetchEventos({String category = ""}) async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await http.get(Uri.parse('https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''}'));
+    if (response.statusCode == 200) {
+      print("############## https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''} #################");
+      setState(() {
+        datos = jsonDecode(response.body);
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      print('Error al obtener los eventos');
+    }
+  }
+
+  ApiServiceProfile apiService = ApiServiceProfile();
+  
+  Map<String, dynamic>? userData;
+  void fetchUser() async {
+    try {
+      final dataRes = await apiService.fetchUserData();
+      setState(() {
+        userData=dataRes;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void onCategorySelected(String category) {
+    setState(() {
+      selectedCategory = category;
+      fetchEventos(category: selectedCategory);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+    fetchEventos();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -126,11 +189,14 @@ class EventsListBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeaderHome(),
-          SizedBox(height: 24.0),
-          InputSearch(),
+          HeaderHome(userData?['nombre'] ?? ""),
+          // SizedBox(height: 24.0),
+          // InputSearch(),
           SizedBox(height: 10.0),
-          ScrollChips(),
+          ScrollChips(
+            categories: categories,
+            onCategorySelected: onCategorySelected,
+          ),
           SizedBox(height: 10.0),
           Expanded(
             // Ejemplo de altura fija
@@ -145,16 +211,19 @@ class EventsListBody extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => EventPage()),
                     );
                   },
-                  child: Column(
-                    children: [
-                      CardEvent(
-                          datos[index]['title'] ?? '',
-                          datos[index]['img'] ?? '',
-                          datos[index]['ubication'] ?? '',
-                          datos[index]['date'] ?? '',
-                          datos[index]['id'] ?? ''),
-                      SizedBox(height: 10.0),
-                    ],
+                  child: Skeletonizer(
+                    enabled: isLoading,
+                    child: Column(
+                      children: [
+                        CardEvent(
+                            datos[index]['nombre_evento'] ?? '',
+                            datos[index]['imagen_url'] ?? '',
+                            datos[index]['ubicacion'] ?? '',
+                            datos[index]['fecha_inicio'] ?? '',
+                            datos[index]['evento_id'] ?? 0),
+                        SizedBox(height: 10.0),
+                      ],
+                    ),
                   ),
                 );
               },

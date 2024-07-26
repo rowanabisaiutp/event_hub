@@ -2,6 +2,11 @@ import 'package:digital_event_hub/Profile/ProfileHome.dart';
 import 'package:flutter/material.dart';
 
 class HeaderHome extends StatelessWidget {
+  final String username;
+
+  // Constructor
+  HeaderHome(this.username);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -10,7 +15,7 @@ class HeaderHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hola, Eider',
+              username != "" ? "Hola, ${username}" : "Hola!",
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,

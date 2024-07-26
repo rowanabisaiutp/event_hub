@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardEvent extends StatelessWidget {
   final String title;
   final String img;
   final String ubication;
   final String date;
-  final String id;
+  final int id;
 
   // Constructor
   CardEvent(this.title, this.img, this.ubication, this.date, this.id);
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+    DateTime fecha = DateTime.parse(date);
+    DateFormat formato = DateFormat('dd/MM/yyyy');
+    String fechaFormateada = formato.format(fecha);
+
+
     return Card(
       color: Colors.white,
       clipBehavior: Clip.antiAlias,
@@ -57,7 +66,7 @@ class CardEvent extends StatelessWidget {
                             color: Colors.grey, size: 17.0),
                         SizedBox(width: 4.0),
                         Text(
-                          date,
+                          fechaFormateada,
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 12.0,
