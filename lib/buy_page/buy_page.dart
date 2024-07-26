@@ -1,101 +1,25 @@
+import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:digital_event_hub/buy_page/buy.dart'; // Asegúrate de tener esta importación si es necesario
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Payment Method',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: MetodoPagoScreen(),
-    );
-  }
-}
 
 class MetodoPagoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Selecciona tu metodo de pago'),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        title: const Text('Selecciona tu metodo de pago',
+            style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
         color: Colors.white, // Establecer color de fondo a blanco
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              elevation: 4.0,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/Mask group.png', // Reemplaza con la URL de tu imagen
-                      width: 100,
-                      height: 120,
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Blue Man Group',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(Icons.location_on,
-                                  size: 16, color: Colors.grey),
-                              SizedBox(width: 4),
-                              Text(
-                                'Gran Carpa Santa Fe',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Icon(Icons.calendar_today,
-                                  size: 16, color: Colors.grey),
-                              SizedBox(width: 4),
-                              Text(
-                                '23/02/2024',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              SizedBox(width: 16),
-                              Icon(Icons.access_time,
-                                  size: 16, color: Colors.grey),
-                              SizedBox(width: 4),
-                              Text(
-                                '18:00',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Eventbuy(),
             SizedBox(height: 20),
             PaymentOption(
               icons: [

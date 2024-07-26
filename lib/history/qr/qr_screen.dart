@@ -26,13 +26,6 @@ class QRScreen extends StatelessWidget {
           children: [
             Eventbuy(), //Componente de la compra
             const SizedBox(height: 36.0),
-            const Divider(
-              height: 1,
-              color: Colors.grey,
-              thickness: 1,
-              indent: 0,
-              endIndent: 0,
-            ),
             Expanded(
               child: Center(
                 child: Container(

@@ -27,14 +27,8 @@ class Escenario1 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Eventbuy(), //Componente de la compra
-            const SizedBox(height: 16.0),
-            const Divider(
-              height: 40,
-              color: Colors.grey,
-              thickness: 1,
-              indent: 0,
-              endIndent: 0,
-            ),
+            const SizedBox(height: 20.0),
+
             Center(
               child: Symbology(), //Componente de la simbologia
             ),
