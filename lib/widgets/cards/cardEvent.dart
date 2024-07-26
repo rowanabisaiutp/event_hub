@@ -31,7 +31,7 @@ class CardEvent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            img, // URL de la imagen
+            img != "" ? img : "http://www.palmares.lemondeduchiffre.fr/images/joomlart/demo/default.jpg", // URL de la imagen
             width: double.infinity,
             height: 150.0,
             fit: BoxFit.cover,

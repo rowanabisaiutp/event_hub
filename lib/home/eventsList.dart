@@ -154,6 +154,7 @@ class _EventsListBodyState extends State<EventsListBody> {
       });
     } else {
       setState(() {
+        datos = [];
         isLoading = false;
       });
       print('Error al obtener los eventos');
@@ -214,7 +215,7 @@ class _EventsListBodyState extends State<EventsListBody> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EventPage()),
+                      MaterialPageRoute(builder: (context) => EventPage(id : datos[index]['evento_id'])),
                     );
                   },
                   child: Skeletonizer(
