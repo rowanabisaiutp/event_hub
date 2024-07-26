@@ -53,14 +53,18 @@ class _EventsListState extends State<EventsList> {
             icon: Image(
                 image: AssetImage('assets/bag.png'),
                 height: 22,
-                color: _selectedIndex == 1 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
+                color: _selectedIndex == 1
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Colors.grey),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Image(
                 image: AssetImage('assets/bell.png'),
                 height: 22,
-                color: _selectedIndex == 2 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
+                color: _selectedIndex == 2
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Colors.grey),
             //FontAwesomeIcons.gamepad
             label: '',
           ),
@@ -68,7 +72,9 @@ class _EventsListState extends State<EventsList> {
             icon: Image(
                 image: AssetImage('assets/Pin.png'),
                 height: 22,
-                color: _selectedIndex == 3 ? Theme.of(context).colorScheme.tertiary : Colors.grey),
+                color: _selectedIndex == 3
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Colors.grey),
             label: '',
           ),
         ],
@@ -128,9 +134,8 @@ class EventsListBody extends StatefulWidget {
 }
 
 class _EventsListBodyState extends State<EventsListBody> {
-  
   bool isLoading = true;
-  List<dynamic>datos = [];
+  List<dynamic> datos = [];
   String selectedCategory = '';
   final List<String> categories = ['Tecnología', 'Deportes', 'Cine', 'Teatro'];
 
@@ -138,9 +143,11 @@ class _EventsListBodyState extends State<EventsListBody> {
     setState(() {
       isLoading = true;
     });
-    final response = await http.get(Uri.parse('https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''}'));
+    final response = await http.get(Uri.parse(
+        'https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''}'));
     if (response.statusCode == 200) {
-      print("############## https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''} #################");
+      print(
+          "############## https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''} #################");
       setState(() {
         datos = jsonDecode(response.body);
         isLoading = false;
@@ -154,13 +161,13 @@ class _EventsListBodyState extends State<EventsListBody> {
   }
 
   ApiServiceProfile apiService = ApiServiceProfile();
-  
+
   Map<String, dynamic>? userData;
   void fetchUser() async {
     try {
       final dataRes = await apiService.fetchUserData();
       setState(() {
-        userData=dataRes;
+        userData = dataRes;
       });
     } catch (e) {
       print(e);
@@ -184,7 +191,6 @@ class _EventsListBodyState extends State<EventsListBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      
       padding: EdgeInsets.only(top: 50, right: 24, bottom: 0, left: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

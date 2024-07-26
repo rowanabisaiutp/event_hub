@@ -4,15 +4,41 @@ import 'package:digital_event_hub/event_detail/comentarios.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:digital_event_hub/event_detail/ApiServiceEvent.dart';
 
 class EventPage extends StatefulWidget {
-  const EventPage({super.key});
+  final int id;
+
+  const EventPage({super.key, this.id = 2}); // Valor predeterminado 1
 
   @override
   _EventPageState createState() => _EventPageState();
 }
 
 class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
+  Map<String, dynamic>? event;
+  int get id => widget.id;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEventById(id);
+  }
+
+  void fetchEventById(int eventId) async {
+    try {
+      List<dynamic> fetchedEvents = await ApiServiceProfile().fetchEvents();
+      Map<String, dynamic>? fetchedEvent = fetchedEvents
+          .firstWhere((e) => e['evento_id'] == eventId, orElse: () => null);
+      setState(() {
+        event = fetchedEvent;
+        print(event);
+      });
+    } catch (e) {
+      print("Failed to load event: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +75,15 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child: Image.asset(
-                            'assets/eventolocal.png',
-                            width: double.infinity,
-                            height: 500,
-                            fit: BoxFit.cover,
-                          ),
+                          child: event != null
+                              ? Image.network(
+                                  event!['imagen_url'] ??
+                                      'https://imgs.search.brave.com/SEEkteBkeBAROk-PRhtRO0sSp-e3N8eXgAZvfMwFpm4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS40ODU5/MjM2NjEuMTI0MC9i/ZyxmOGY4ZjgtZmxh/dCw3NTB4LDA3NSxm/LXBhZCw3NTB4MTAw/MCxmOGY4ZjgudTEu/anBn', // URL de la imagen desde el evento o una imagen por defecto
+                                  width: double.infinity,
+                                  height: 500,
+                                  fit: BoxFit.cover,
+                                )
+                              : const CircularProgressIndicator(),
                         ),
                         Positioned(
                           bottom: 30,
@@ -71,11 +100,13 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                                       0x4D1D1D1D), // Color con 30% de opacidad
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: const Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Time Stars Tournament',
+                                      event != null
+                                          ? event!['nombre_evento'] ?? 'Evento'
+                                          : 'Evento',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -88,13 +119,18 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                                             color: Colors.white, size: 16),
                                         SizedBox(width: 4),
                                         Text(
-                                          'Teatro Armando Manzanero, Yuc.',
+                                          event != null
+                                              ? event!['ubicacion'] ??
+                                                  'Ubicación'
+                                              : 'Ubicación',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ],
                                     ),
                                     Text(
-                                      '24/06/03',
+                                      event != null
+                                          ? "${event!['fecha_inicio']?.substring(0, 10)}"
+                                          : 'Fecha',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
@@ -106,8 +142,10 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Descripción general',
+                    Text(
+                      event != null
+                          ? 'Maximo de personas: ${event!['max_per']}'
+                          : 'Maximo de personas: Desconocido',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -115,7 +153,9 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                       children: [
                         Icon(Icons.access_time),
                         SizedBox(width: 4),
-                        Text('2 hours'),
+                        Text(event != null
+                            ? 'Hora: ${event!['hora']}'
+                            : 'Hora: Desconocida'),
                         Spacer(),
                         Row(
                           children: [
@@ -137,10 +177,14 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Este es un torneo de Brawl Stars en el que podrás competir con los mejores jugadores de la región. Habrá premios increíbles para los primeros lugares, además de muchas sorpresas más. Este evento es una oportunidad única para demostrar tus habilidades y ganar reconocimiento en la comunidad. ¡Prepárate para la acción, mejora tus estrategias y no te pierdas esta emocionante competencia!',
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    Text(
+                        event != null
+                            ? 'Organizado por: ${event!['organizador_nombre'] ?? 'Desconocido'}\n\nTipo de evento: ${event!['tipo_evento'] ?? 'Desconocido'}\nCategoría: ${event!['categoria_nombre'] ?? 'Desconocida'}'
+                            : 'Descripción no disponible',
+                        style: TextStyle(
+                          fontSize: 16,
+                          height: 1.4,
+                        )),
                   ],
                 ),
               ),
