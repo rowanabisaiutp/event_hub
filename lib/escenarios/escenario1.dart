@@ -5,6 +5,9 @@ import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/material.dart';
 
 class Escenario1 extends StatelessWidget {
+    final int id;
+
+  const Escenario1({super.key, required this.id});
   @override
   Widget build(BuildContext context) {
     // Obtenemos el tamaño de la pantalla
@@ -26,7 +29,7 @@ class Escenario1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(), //Componente de la compra
+            Eventbuy(id:id), //Componente de la compra
             const SizedBox(height: 20.0),
 
             Center(
