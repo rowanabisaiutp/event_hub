@@ -2,7 +2,7 @@ import 'package:digital_event_hub/event_detail/api_cometarios.dart';
 import 'package:digital_event_hub/widgets/cards/cardReview.dart';
 import 'package:flutter/material.dart';
 
-void Comentarios(BuildContext context, TickerProvider vsync) {
+void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: Colors.white,
@@ -13,7 +13,7 @@ void Comentarios(BuildContext context, TickerProvider vsync) {
     ),
     builder: (BuildContext context) {
       return FutureBuilder<List<Map<String, dynamic>>>(
-        future: ApiComentarios().fetchComentData(),
+        future: ApiComentarios().fetchCommentsByEvento(eventoId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -38,8 +38,7 @@ void Comentarios(BuildContext context, TickerProvider vsync) {
                         children: [
                           SizedBox(height: 5.0),
                           ReviewCard(
-                            reviewsList[index]['usuario_id']
-                                .toString(), // You might want to replace this with actual username
+                            reviewsList[index]['usuario_id'].toString(),
                             'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg', // Placeholder image URL
                             reviewsList[index]['comentario_id'].toString(),
                             reviewsList[index]['fecha'] ?? '',
@@ -63,8 +62,8 @@ void Comentarios(BuildContext context, TickerProvider vsync) {
                       ),
                     ],
                     border: Border.all(
-                      color: Colors.grey, // Color del borde
-                      width: 1.0, // Ancho del borde
+                      color: Colors.grey,
+                      width: 1.0,
                     ),
                   ),
                   child: Row(

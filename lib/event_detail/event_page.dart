@@ -1,41 +1,47 @@
-import 'dart:ui';
+import 'dart:ui'; // Importa ImageFilter para aplicar el filtro de desenfoque
 import 'package:digital_event_hub/escenarios/escenario1.dart';
-import 'package:digital_event_hub/event_detail/comentarios.dart';
+import 'package:digital_event_hub/event_detail/comentarios.dart'; // Asegúrate de que la ruta es correcta
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_event_hub/event_detail/ApiServiceEvent.dart';
 
+// Definición de la página del evento
 class EventPage extends StatefulWidget {
-  final int id;
+  final int id; // Identificador del evento
 
-  const EventPage({super.key, this.id = 2}); // Valor predeterminado 1
+  const EventPage(
+      {super.key,
+      this.id = 2}); // Valor predeterminado 2 si no se proporciona ninguno
 
   @override
   _EventPageState createState() => _EventPageState();
 }
 
 class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
-  Map<String, dynamic>? event;
-  int get id => widget.id;
+  Map<String, dynamic>? event; // Variable para almacenar los datos del evento
+  int get id => widget.id; // Obtén el id del evento
 
   @override
   void initState() {
     super.initState();
-    fetchEventById(id);
+    fetchEventById(id); // Llama a la función para obtener los datos del evento
   }
 
+  // Función para obtener los datos del evento
   void fetchEventById(int eventId) async {
     try {
-      List<dynamic> fetchedEvents = await ApiServiceProfile().fetchEvents();
-      Map<String, dynamic>? fetchedEvent = fetchedEvents
-          .firstWhere((e) => e['evento_id'] == eventId, orElse: () => null);
+      List<dynamic> fetchedEvents =
+          await ApiServiceProfile().fetchEvents(); // Obtén la lista de eventos
+      Map<String, dynamic>? fetchedEvent = fetchedEvents.firstWhere(
+          (e) => e['evento_id'] == eventId,
+          orElse: () => null); // Filtra el evento por id
       setState(() {
-        event = fetchedEvent;
-        print(event);
+        event = fetchedEvent; // Actualiza el estado con el evento obtenido
+        print(event); // Imprime el evento para depuración
       });
     } catch (e) {
-      print("Failed to load event: $e");
+      print("Failed to load event: $e"); // Manejo de errores
     }
   }
 
@@ -51,7 +57,9 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EventsList()),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      EventsList()), // Navega a la lista de eventos
             );
           },
         ),
@@ -78,12 +86,12 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                           child: event != null
                               ? Image.network(
                                   event!['imagen_url'] ??
-                                      'https://imgs.search.brave.com/SEEkteBkeBAROk-PRhtRO0sSp-e3N8eXgAZvfMwFpm4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS40ODU5/MjM2NjEuMTI0MC9i/ZyxmOGY4ZjgtZmxh/dCw3NTB4LDA3NSxm/LXBhZCw3NTB4MTAw/MCxmOGY4ZjgudTEu/anBn', // URL de la imagen desde el evento o una imagen por defecto
+                                      'https://imgs.search.brave.com/SEEkteBkeBAROk-PRhtRO0sSp-e3N8eXgAZvfMwFpm4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS40ODU5/MjM2NjEuMTI0MC9i/ZyxmOGY4ZjgtZmxh/dCw3NTB4LDA3NSxm/LXBhZCw3NTB4MTAw/MCxmOGY4ZjgudTEu/anBn', // URL de imagen por defecto si no está disponible en el evento
                                   width: double.infinity,
                                   height: 500,
                                   fit: BoxFit.cover,
                                 )
-                              : const CircularProgressIndicator(),
+                              : const CircularProgressIndicator(), // Muestra un indicador de carga mientras se obtienen los datos
                         ),
                         Positioned(
                           bottom: 30,
@@ -92,7 +100,9 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+                              filter: ImageFilter.blur(
+                                  sigmaX: 40,
+                                  sigmaY: 40), // Aplica el desenfoque
                               child: Container(
                                 padding: const EdgeInsets.all(25.0),
                                 decoration: BoxDecoration(
@@ -160,11 +170,14 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                         Row(
                           children: [
                             IconButton(
-                                icon: FaIcon(FontAwesomeIcons.commentDots),
-                                iconSize: 30.0,
-                                onPressed: () {
-                                  Comentarios(context, this);
-                                }),
+                              icon: FaIcon(FontAwesomeIcons.commentDots),
+                              iconSize: 30.0,
+                              onPressed: () {
+                                // Llama al método Comentarios pasando el contexto, el ticker provider y el id del evento
+                                Comentarios(context, this,
+                                    id); //<-------- // Modificación: Añadido id como parámetro
+                              },
+                            ),
                             Icon(Icons.star,
                                 size: 35,
                                 color: Color.fromARGB(255, 255, 238, 0)),
@@ -197,7 +210,9 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Escenario1()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Escenario1()), // Navega al escenario 1
                   );
                 },
                 style: ElevatedButton.styleFrom(
