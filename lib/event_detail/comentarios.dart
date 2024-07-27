@@ -20,7 +20,7 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No comments available.'));
+            return Center(child: Text('Sin comentarios'));
           }
 
           List<Map<String, dynamic>> reviewsList = snapshot.data!;
@@ -34,18 +34,39 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                   child: ListView.builder(
                     itemCount: reviewsList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          SizedBox(height: 5.0),
-                          ReviewCard(
-                            reviewsList[index]['usuario_id'].toString(),
-                            'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg', // Placeholder image URL
-                            reviewsList[index]['comentario_id'].toString(),
-                            reviewsList[index]['fecha'] ?? '',
-                            reviewsList[index]['comentario'] ?? '',
-                          ),
-                          SizedBox(height: 10.0),
-                        ],
+                      final userId =
+                          reviewsList[index]['usuario_id'].toString();
+                      return FutureBuilder<Map<String, String>>(
+                        future: ApiComentarios().fetchUserDetails(userId),
+                        builder: (context, userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (userSnapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${userSnapshot.error}'));
+                          } else if (!userSnapshot.hasData) {
+                            return Center(child: Text('Nombre no disponible'));
+                          }
+
+                          final userName = userSnapshot.data!['nombre']!;
+                          final userProfilePic =
+                              userSnapshot.data!['foto_perfil']!;
+
+                          return Column(
+                            children: [
+                              SizedBox(height: 5.0),
+                              ReviewCard(
+                                userName,
+                                userProfilePic,
+                                reviewsList[index]['comentario_id'].toString(),
+                                reviewsList[index]['fecha'] ?? '',
+                                reviewsList[index]['comentario'] ?? '',
+                              ),
+                              SizedBox(height: 10.0),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
@@ -99,6 +120,14 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
     },
   );
 }
+
+
+
+
+
+
+
+
 
 
 // import 'package:digital_event_hub/widgets/cards/cardReview.dart';

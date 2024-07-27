@@ -2,12 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiComentarios {
-  // Método para obtener comentarios filtrados por evento
-  Future<List<Map<String, dynamic>>> fetchCommentsByEvento(int eventoId) async {
-    final apiUrl =
-        'https://api-digitalevent.onrender.com/api/comentario/list/$eventoId';
+  final String baseUrl = "https://api-digitalevent.onrender.com/api/comentario";
+  final String usersUrl = "https://api-digitalevent.onrender.com/api/users";
 
-    final response = await http.get(Uri.parse(apiUrl));
+  Future<List<Map<String, dynamic>>> fetchCommentsByEvento(int eventoId) async {
+    final response = await http.get(Uri.parse('$baseUrl/list/$eventoId'));
 
     if (response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(json.decode(response.body));
@@ -16,21 +15,31 @@ class ApiComentarios {
     }
   }
 
-  Future<void> postComment(
-      int eventoId, int usuarioId, String comentario) async {
-    final postApiUrl =
-        "https://api-digitalevent.onrender.com/api/comentario/create/${eventoId}/${usuarioId}";
-
-    final response = await http.post(
-      Uri.parse(postApiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: json.encode({'comentario': comentario}),
-    );
-
-    if (response.statusCode != 201) {
-      throw Exception('Failed to post comment');
+  Future<Map<String, String>> fetchUserDetails(String userId) async {
+    try {
+      final response = await http.get(Uri.parse('$usersUrl/$userId'));
+      if (response.statusCode == 200) {
+        final userData = json.decode(response.body);
+        final fotoPerfilUrl = userData['fotoPerfil'].startsWith('http')
+            ? userData['fotoPerfil']
+            : 'https://api-digitalevent.onrender.com${userData['fotoPerfil']}';
+        return {
+          'nombre': userData['nombre'] ?? 'Nombre no disponible',
+          'foto_perfil': fotoPerfilUrl,
+        };
+      } else {
+        return {
+          'nombre': 'Nombre no disponible',
+          'foto_perfil':
+              'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg',
+        };
+      }
+    } catch (e) {
+      return {
+        'nombre': 'Nombre no disponible',
+        'foto_perfil':
+            'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg',
+      };
     }
   }
 }
