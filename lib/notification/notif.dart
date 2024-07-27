@@ -52,7 +52,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<void> _fetchNotifications() async {
     try {
       final fetchedNotifications = await apiService.getNotifications(userId);
-      print("El id del usuario para las notificaciones $userId");
       setState(() {
         notifications = fetchedNotifications;
       });

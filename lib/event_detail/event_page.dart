@@ -5,6 +5,7 @@ import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_event_hub/event_detail/ApiServiceEvent.dart';
+import 'package:share_plus/share_plus.dart';
 
 // Definición de la página del evento
 class EventPage extends StatefulWidget {
@@ -66,7 +67,10 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
         actions: [
           IconButton(
             icon: const Icon(Icons.share, color: Colors.black),
-            onPressed: () {},
+            onPressed: () async {
+             await Share.share(
+                  'Hola, te invito a este evento: ${event!['nombre_evento']} en ${event!['ubicacion']} el ${event!['fecha_inicio'].substring(0, 10)} a las ${event!['hora']}');
+            },
           ),
         ],
       ),
