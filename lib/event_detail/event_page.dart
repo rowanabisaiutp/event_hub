@@ -197,7 +197,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Escenario1()),
+                    MaterialPageRoute(builder: (context) => Escenario1(id:id)),
                   );
                 },
                 style: ElevatedButton.styleFrom(
