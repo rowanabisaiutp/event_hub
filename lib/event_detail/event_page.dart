@@ -1,5 +1,5 @@
 import 'dart:ui'; // Importa ImageFilter para aplicar el filtro de desenfoque
-import 'package:digital_event_hub/escenarios/escenario1.dart';
+import 'package:digital_event_hub/escenarios/escenario1.dart'; //<-------------------- Importa la clase Escenario1
 import 'package:digital_event_hub/event_detail/comentarios.dart'; // Asegúrate de que la ruta es correcta
 import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -173,9 +173,8 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                               icon: FaIcon(FontAwesomeIcons.commentDots),
                               iconSize: 30.0,
                               onPressed: () {
-                                // Llama al método Comentarios pasando el contexto, el ticker provider y el id del evento
                                 Comentarios(context, this,
-                                    id); //<-------- // Modificación: Añadido id como parámetro
+                                    id); // Se pasó el id como parámetro //<-------------------- Modificado
                               },
                             ),
                             Icon(Icons.star,
@@ -210,11 +209,10 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                 onPressed: () {
                   Navigator.push(
                     context,
-
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Escenario1()), // Navega al escenario 1
-                    MaterialPageRoute(builder: (context) => Escenario1(id: id)),
+                      builder: (context) => Escenario1(
+                          id: id), // Pasar el id //<-------------------- Modificado
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
