@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:digital_event_hub/buy_page/buy.dart'; // Asegúrate de tener esta importación si es necesario
 
 class MetodoPagoScreen extends StatelessWidget {
+      final int id;
+
+  const MetodoPagoScreen({super.key, required this.id});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +22,7 @@ class MetodoPagoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Eventbuy(),
+            Eventbuy(id:id),
             SizedBox(height: 20),
             PaymentOption(
               icons: [

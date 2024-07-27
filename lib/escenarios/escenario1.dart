@@ -61,7 +61,7 @@ class Escenario1 extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MetodoPagoScreen()));
+                            builder: (context) => MetodoPagoScreen(id:id)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
