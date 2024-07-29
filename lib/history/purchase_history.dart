@@ -1,11 +1,48 @@
+import 'package:digital_event_hub/history/ApiServicePurcharseHistory.dart';
 import 'package:digital_event_hub/history/qr/qr_screen.dart';
+import 'package:digital_event_hub/sesion/login/idUser.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class PurchaseHistoryPage extends StatelessWidget {
+class PurchaseHistoryPage extends StatefulWidget {
   const PurchaseHistoryPage({super.key});
 
   @override
+  State<PurchaseHistoryPage> createState() => _PurchaseHistoryPageState();
+}
+
+class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
+  final ApiServicePurcharseHistory apiService = ApiServicePurcharseHistory();
+  int userId = int.parse(UserSession().userId!); // Simulated user session 
+  List<dynamic> history = [];
+
+  Future<void> _fetchHistory() async {
+    try {
+      final fetchedHistory = await apiService.getPurcharseHistories(userId);
+      print(fetchedHistory);
+      setState(() {
+        history = fetchedHistory;
+      });
+    } catch (error) {
+      print('Error fetching history: $error');
+    }
+  }
+
+  Future<void> _refreshHistory() async {
+    await _fetchHistory();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHistory();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    
+    DateFormat formato = DateFormat('dd/MM/yyyy');
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -17,63 +54,63 @@ class PurchaseHistoryPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Buscar compra realizada...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/event_image.jpg',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('2 eventos esperan tu compra'),
-                      GestureDetector(
-                        onTap: () {},
-                        child: const Text(
-                          'Ver carrito',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: TextField(
+          //     decoration: InputDecoration(
+          //       hintText: 'Buscar compra realizada...',
+          //       prefixIcon: const Icon(Icons.search),
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(16.0),
+          //         borderSide: BorderSide.none,
+          //       ),
+          //       filled: true,
+          //       fillColor: Colors.grey[200],
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   child: Container(
+          //     padding: const EdgeInsets.all(8.0),
+          //     decoration: BoxDecoration(
+          //       color: Colors.grey[200],
+          //       borderRadius: BorderRadius.circular(16.0),
+          //     ),
+          //     child: Row(
+          //       children: [
+          //         ClipRRect(
+          //           borderRadius: BorderRadius.circular(8.0),
+          //           child: Image.asset(
+          //             'assets/event_image.jpg',
+          //             width: 50,
+          //             height: 50,
+          //             fit: BoxFit.cover,
+          //           ),
+          //         ),
+          //         const SizedBox(width: 8),
+          //         Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             const Text('2 eventos esperan tu compra'),
+          //             GestureDetector(
+          //               onTap: () {},
+          //               child: const Text(
+          //                 'Ver carrito',
+          //                 style: TextStyle(color: Colors.blue),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16.0),
-              itemCount: 10,
-              itemBuilder: (context, index) {
+              itemCount: history.length,
+              itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Container(
@@ -103,7 +140,7 @@ class PurchaseHistoryPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -116,7 +153,7 @@ class PurchaseHistoryPage extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Fecha de la compra: 23/02/2024',
+                                'Fecha de la compra: ${history[index]?['fecha'] == null ? "" : formato.format(DateTime.parse(history[index]['fecha']))}',
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Row(
@@ -125,7 +162,7 @@ class PurchaseHistoryPage extends StatelessWidget {
                                       size: 16, color: Colors.grey),
                                   SizedBox(width: 4),
                                   Text(
-                                    'Gran Carpa Santa Fe',
+                                    history[index]?['evento_id'] == null ? "" : history[index]['evento_id'].toString(),
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ],
@@ -139,7 +176,9 @@ class PurchaseHistoryPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => QRScreen()
+                                builder: (context) => QRScreen(
+                                  code: history[index]?['pago_id'] == null ? "" : history[index]['pago_id'].toString(),
+                                )
                               )
                             );
                           },

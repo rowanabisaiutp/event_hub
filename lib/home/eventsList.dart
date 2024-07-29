@@ -203,6 +203,7 @@ class _EventsListBodyState extends State<EventsListBody> {
           ScrollChips(
             categories: categories,
             onCategorySelected: onCategorySelected,
+            selectedCategory: selectedCategory
           ),
           SizedBox(height: 10.0),
           Expanded(

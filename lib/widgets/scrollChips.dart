@@ -78,11 +78,14 @@ import 'package:flutter/material.dart';
 class ScrollChips extends StatelessWidget {
   final List<String> categories;
   final Function(String) onCategorySelected;
+  final String selectedCategory;
+  
 
   const ScrollChips({
     Key? key,
     required this.categories,
     required this.onCategorySelected,
+    required this.selectedCategory,
   }) : super(key: key);
 
   @override
@@ -101,7 +104,8 @@ class ScrollChips extends StatelessWidget {
                 }
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,
-              selectedColor: Color(0xFFD36AE4),
+              selected: selectedCategory == category,
+              // selectedColor: Colors.amber,
               labelStyle: TextStyle(color: Colors.white),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),

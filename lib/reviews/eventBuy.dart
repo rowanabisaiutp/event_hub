@@ -50,7 +50,7 @@ class _EventbuyState extends State<Eventbuy> {
                 ? Image.network(
                     event!['imagen_url'] ??
                         'http://www.palmares.lemondeduchiffre.fr/images/joomlart/demo/default.jpg', // URL de la imagen desde el evento o una imagen por defecto
-                    width: 120,
+                    width: 100,
                     height: 120,
                   )
                 : const CircularProgressIndicator(),
