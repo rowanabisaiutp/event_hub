@@ -7,13 +7,21 @@ class QRScreen extends StatelessWidget {
 
   const QRScreen({super.key, required this.code});
   
-
   @override
   Widget build(BuildContext context) {
     // Obtenemos el tamaño de la pantalla
     final Size screenSize = MediaQuery.of(context).size;
     // Calculamos el padding horizontal de manera proporcional al tamaño de la pantalla
     final double horizontalPadding = screenSize.width * 0.2;
+
+    // Convertimos el código a un entero
+    int id;
+    try {
+      id = int.parse(code);
+    } catch (e) {
+      // Maneja el error, tal vez mostrando un mensaje o asignando un valor por defecto
+      id = 2; // Valor por defecto en caso de error
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -29,7 +37,7 @@ class QRScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(), //Componente de la compra
+            Eventbuy(id: id), // Componente de la compra
             const SizedBox(height: 36.0),
             Expanded(
               child: Center(
@@ -54,7 +62,7 @@ class QRScreen extends StatelessWidget {
               ),
             ),
 
-            Container (
+            Container(
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: ElevatedButton(
@@ -81,8 +89,6 @@ class QRScreen extends StatelessWidget {
                 ),
               ),
             ),
-          
-            
           ],
         ),
       ),

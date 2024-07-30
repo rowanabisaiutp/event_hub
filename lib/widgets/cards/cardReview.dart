@@ -4,12 +4,12 @@ class ReviewCard extends StatelessWidget {
   final String username;
   final String img;
   final String qualification;
-  final String title;
   final String text;
+  final String fecha;
 
   // Constructor
   ReviewCard(
-      this.username, this.img, this.qualification, this.title, this.text);
+      this.username, this.img, this.qualification, this.text, this.fecha);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class ReviewCard extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              title,
+              fecha,
               style: TextStyle(
                 fontSize: 13,
                 color: Color.fromARGB(255, 173, 173, 173),

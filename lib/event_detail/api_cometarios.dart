@@ -1,45 +1,51 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ApiComentarios {
-  final String baseUrl = "https://api-digitalevent.onrender.com/api/comentario";
-  final String usersUrl = "https://api-digitalevent.onrender.com/api/users";
+class ApiServiceComentarios {
+  final String baseUrl = 'https://api-digitalevent.onrender.com/api';
 
-  Future<List<Map<String, dynamic>>> fetchCommentsByEvento(int eventoId) async {
-    final response = await http.get(Uri.parse('$baseUrl/list/$eventoId'));
+  Future<List<dynamic>> fetchComments(int eventId) async {
+    final response = await http.get(Uri.parse('$baseUrl/comentario/list/$eventId'));
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(json.decode(response.body));
+      return json.decode(response.body);
     } else {
       throw Exception('Failed to load comments');
     }
   }
 
-  Future<Map<String, String>> fetchUserDetails(String userId) async {
-    try {
-      final response = await http.get(Uri.parse('$usersUrl/$userId'));
-      if (response.statusCode == 200) {
-        final userData = json.decode(response.body);
-        final fotoPerfilUrl = userData['fotoPerfil'].startsWith('http')
-            ? userData['fotoPerfil']
-            : 'https://api-digitalevent.onrender.com${userData['fotoPerfil']}';
-        return {
-          'nombre': userData['nombre'] ?? 'Nombre no disponible',
-          'foto_perfil': fotoPerfilUrl,
-        };
-      } else {
-        return {
-          'nombre': 'Nombre no disponible',
-          'foto_perfil':
-              'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg',
-        };
-      }
-    } catch (e) {
-      return {
-        'nombre': 'Nombre no disponible',
-        'foto_perfil':
-            'https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg',
-      };
+  Future<Map<String, dynamic>> fetchUser(int userId) async {
+    final response = await http.get(Uri.parse('$baseUrl/users/$userId'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load user');
+    }
+  }
+
+  Future<void> createComment(int eventId, int userId, String comentario) async {
+    final String url = '$baseUrl/comentario/create/$eventId/$userId';
+    final DateTime now = DateTime.now();
+    final String formattedDate = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    final Map<String, dynamic> body = {
+      'evento_id': eventId,
+      'usuario_id': userId,
+      'comentario': comentario,
+      'fecha': formattedDate,
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(body),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create comment');
     }
   }
 }
