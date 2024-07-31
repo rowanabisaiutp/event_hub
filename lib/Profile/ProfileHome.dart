@@ -79,7 +79,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                         CircleAvatar(
                           radius: 80.0,
                           backgroundImage: userData?['fotoPerfil'] != null
-                              ? FileImage(File(userData!['fotoPerfil']))
+                              ? (userData!['fotoPerfil'].startsWith('http')
+                                  ? NetworkImage(userData!['fotoPerfil'])
+                                  : FileImage(File(userData!['fotoPerfil'])))
                               : AssetImage('assets/profile.png') as ImageProvider,
                         ),
                       ],

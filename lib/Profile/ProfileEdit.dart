@@ -128,7 +128,9 @@ class _ProfileEdithState extends State<ProfileEdith> {
                               backgroundImage: _image == null
                                   ? _imageUrl == null
                                       ? AssetImage(_defaultImagePath)
-                                      : FileImage(File(_imageUrl!))
+                                      : _imageUrl!.startsWith('http')
+                                          ? NetworkImage(_imageUrl!)
+                                          : FileImage(File(_imageUrl!))
                                   : FileImage(_image!) as ImageProvider,
                             ),
                             Positioned(
