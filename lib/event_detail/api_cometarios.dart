@@ -48,4 +48,14 @@ class ApiServiceComentarios {
       throw Exception('Failed to create comment');
     }
   }
+
+  Future<void> deleteComment(int comentarioId) async {
+    final String url = '$baseUrl/comentario/delete/$comentarioId';
+
+    final response = await http.delete(Uri.parse(url));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete comment');
+    }
+  }
 }

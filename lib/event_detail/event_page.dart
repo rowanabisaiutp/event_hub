@@ -68,7 +68,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
           IconButton(
             icon: const Icon(Icons.share, color: Colors.black),
             onPressed: () async {
-             await Share.share(
+              await Share.share(
                   'Hola, te invito a este evento: ${event!['nombre_evento']} en ${event!['ubicacion']} el ${event!['fecha_inicio'].substring(0, 10)} a las ${event!['hora']}');
             },
           ),
@@ -129,8 +129,11 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.location_on,
-                                            color: Colors.white, size: 16),
+                                        Image(
+                                          image: AssetImage('assets/Pin.png'),
+                                          height: 15,
+                                          color: Colors.white,
+                                        ),
                                         SizedBox(width: 4),
                                         Text(
                                           event != null

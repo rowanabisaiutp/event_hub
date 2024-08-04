@@ -8,7 +8,7 @@ import 'package:digital_event_hub/map_event/map_event.dart';
 import 'package:digital_event_hub/notification/notif.dart';
 import 'package:digital_event_hub/widgets/cards/cardEvent.dart';
 import 'package:digital_event_hub/widgets/scrollChips.dart';
-import 'package:digital_event_hub/widgets/searchInput.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:skeletonizer/skeletonizer.dart';
@@ -68,10 +68,17 @@ class _EventsListState extends State<EventsList> {
             //FontAwesomeIcons.gamepad
             label: '',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Image(
+          //       image: AssetImage('assets/Pin.png'),
+          //       height: 22,
+          //       color: _selectedIndex == 3
+          //           ? Theme.of(context).colorScheme.tertiary
+          //           : Colors.grey),
+          //   label: '',
+          // ),
           BottomNavigationBarItem(
-            icon: Image(
-                image: AssetImage('assets/Pin.png'),
-                height: 22,
+            icon: Icon(Icons.pin_drop_outlined,
                 color: _selectedIndex == 3
                     ? Theme.of(context).colorScheme.tertiary
                     : Colors.grey),
@@ -201,10 +208,9 @@ class _EventsListBodyState extends State<EventsListBody> {
           // InputSearch(),
           SizedBox(height: 10.0),
           ScrollChips(
-            categories: categories,
-            onCategorySelected: onCategorySelected,
-            selectedCategory: selectedCategory
-          ),
+              categories: categories,
+              onCategorySelected: onCategorySelected,
+              selectedCategory: selectedCategory),
           SizedBox(height: 10.0),
           Expanded(
             // Ejemplo de altura fija
@@ -216,7 +222,9 @@ class _EventsListBodyState extends State<EventsListBody> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EventPage(id : datos[index]['evento_id'])),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EventPage(id: datos[index]['evento_id'])),
                     );
                   },
                   child: Skeletonizer(

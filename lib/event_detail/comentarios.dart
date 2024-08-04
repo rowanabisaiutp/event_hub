@@ -63,15 +63,46 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                           controller: scrollController,
                           itemCount: reviewsList.length,
                           itemBuilder: (BuildContext context, int index) {
+                            final comentario = reviewsList[index];
                             return Column(
                               children: [
                                 SizedBox(height: 5.0),
-                                ReviewCard(
-                                  reviewsList[index]['username'] ?? '',
-                                  reviewsList[index]['img'] ?? '',
-                                  reviewsList[index]['qualification'].toString(),
-                                  reviewsList[index]['text'] ?? '',
-                                  reviewsList[index]['fecha'] ?? '',
+                                Dismissible(
+                                  key: Key(comentario['comentario_id'].toString()),
+                                  direction: comentario['usuario_id'] == userId
+                                      ? DismissDirection.endToStart
+                                      : DismissDirection.none,
+                                  background: Container(
+                                    color: Colors.red,
+                                    alignment: Alignment.centerRight,
+                                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  onDismissed: comentario['usuario_id'] == userId
+                                      ? (direction) async {
+                                          try {
+                                            await apiService.deleteComment(comentario['comentario_id']);
+                                            reviewsList.removeAt(index);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('Comentario eliminado')),
+                                            );
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('Error al eliminar comentario: $e')),
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                  child: ReviewCard(
+                                    comentario['username'] ?? '',
+                                    comentario['img'] ?? '',
+                                    comentario['qualification'].toString(),
+                                    comentario['text'] ?? '',
+                                    comentario['fecha'] ?? '',
+                                  ),
                                 ),
                                 SizedBox(height: 10.0),
                               ],
@@ -80,56 +111,59 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                         ),
                       ),
                       /*PARA EL POST de comentarios*/
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4,
-                              offset: Offset(2, 2),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 4,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
                             ),
-                          ],
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.0,
                           ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: TextField(
-                                  controller: commentController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Escribe algo...',
-                                    border: InputBorder.none,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: TextField(
+                                    controller: commentController,
+                                    decoration: InputDecoration(
+                                      hintText: 'Escribe algo...',
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.send,
-                                color: Theme.of(context).colorScheme.tertiary,
-                              ),
-                              onPressed: () async {
-                                if (commentController.text.isNotEmpty) {
-                                  try {
-                                    await apiService.createComment(eventoId, userId, commentController.text);
-                                    // Refresh comments
-                                    commentsFuture = fetchCommentsAndUsers(eventoId);
-                                    commentController.clear();
-                                    Navigator.pop(context);
-                                  } catch (e) {
-                                    print('Failed to post comment: $e');
+                              IconButton(
+                                icon: Icon(
+                                  Icons.send,
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                                onPressed: () async {
+                                  if (commentController.text.isNotEmpty) {
+                                    try {
+                                      await apiService.createComment(eventoId, userId, commentController.text);
+                                      // Refresh comments
+                                      commentsFuture = fetchCommentsAndUsers(eventoId);
+                                      commentController.clear();
+                                      Navigator.pop(context);
+                                    } catch (e) {
+                                      print('Failed to post comment: $e');
+                                    }
                                   }
-                                }
-                              },
-                            ),
-                          ],
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -153,6 +187,8 @@ Future<List<Map<String, dynamic>>> fetchCommentsAndUsers(int eventoId) async {
     for (var comment in comments) {
       Map<String, dynamic> user = await apiService.fetchUser(comment['usuario_id']);
       reviewsList.add({
+        'comentario_id': comment['comentario_id'],
+        'usuario_id': comment['usuario_id'],
         'username': user['nombre'],
         'img': user['fotoPerfil'],
         'qualification': (Random().nextDouble() * 5).toStringAsFixed(1), // Calificación aleatoria
