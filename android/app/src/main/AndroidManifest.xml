@@ -6,7 +6,8 @@ package="com.example.event_hub">
     <application
         android:label="digital_event_hub"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCkJwrcOuqFszjXYAJDDepaFA3dGkble88"/>
         <activity

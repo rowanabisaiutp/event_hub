@@ -1,12 +1,86 @@
-import 'package:digital_event_hub/reviews/eventBuy.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/services.dart';
-import 'package:digital_event_hub/buy_page/buy.dart'; // Asegúrate de tener esta importación si es necesario
+
 
 class MetodoPagoScreen extends StatelessWidget {
-      final int id;
+  final int id;
 
   const MetodoPagoScreen({super.key, required this.id});
+
+  Future<String> createPaymentIntent(int amount, String currency) async {
+    try {
+      final body = jsonEncode({
+        'amount': amount,
+        'currency': currency,
+      });
+      final response = await http.post(
+        Uri.https('api-digitalevent.onrender.com', '/api/pagos/pago'), 
+        body: body,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final paymentIntentData = jsonDecode(response.body);
+        final clientSecret = paymentIntentData['client_secret'] as String;
+        print(clientSecret); 
+        return clientSecret;
+      } else {
+        throw Exception('Failed to create payment intent');
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      throw Exception('Failed to create payment intent');
+    }
+  }
+
+  Future<void> makePayment(BuildContext context) async {
+    try {
+      final paymentIntentClientSecret = await createPaymentIntent(5000, 'USD');
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntentClientSecret,
+          style: ThemeMode.light,
+          merchantDisplayName: 'ejemplo'
+        ),
+      );
+
+      await displayPaymentSheet(context);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future<void> displayPaymentSheet(BuildContext context) async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Pago exitoso")));
+      }).onError((error, stackTrace) {
+        throw Exception(error);
+      });
+    } on StripeException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  void _showUnavailableMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Este metodo de pago aun no esta disponible')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +96,7 @@ class MetodoPagoScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Eventbuy(id:id),
+            Eventbuy(id: id),
             SizedBox(height: 20),
             PaymentOption(
               icons: [
@@ -58,11 +132,8 @@ class MetodoPagoScreen extends StatelessWidget {
                 'assets/stripe.png'
               ], // Reemplaza con la ruta de tu imagen
               text: 'Stripe',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PaymentFormScreen()),
-                );
+              onTap: () async {
+                await makePayment(context);
               },
             ),
             Spacer(),
@@ -103,12 +174,6 @@ class MetodoPagoScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _showUnavailableMessage(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Este metodo de pago aun no esta disponible')),
     );
   }
 }
