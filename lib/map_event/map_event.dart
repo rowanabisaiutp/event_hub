@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/map_event/ApiServiceMarker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -8,12 +9,49 @@ class GoogleMapScreen extends StatefulWidget {
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   late GoogleMapController mapController;
-
   final LatLng _center =
       const LatLng(20.5850752, -90.0223038); // Coordenadas de ejemplo
+  Set<Marker> _markers = {};
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    _fetchAndAddMarkers();
+  }
+
+  Future<void> _fetchAndAddMarkers() async {
+    try {
+      List<Evento> eventos = await fetchEventos();
+      Set<Marker> newMarkers = eventos.map((evento) {
+        // Aquí puedes convertir las ubicaciones a coordenadas LatLng reales si es necesario
+        // Actualmente se usan coordenadas de ejemplo
+        LatLng position = _getLatLngFromUbicacion(evento.ubicacion);
+        return Marker(
+          markerId: MarkerId(evento.eventoId.toString()),
+          position: position,
+          infoWindow: InfoWindow(
+            title: evento.nombreEvento,
+            snippet: evento.ubicacion,
+          ),
+        );
+      }).toSet();
+      setState(() {
+        _markers = newMarkers;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  LatLng _getLatLngFromUbicacion(String ubicacion) {
+    // Aquí puedes implementar un método para convertir la ubicación a coordenadas reales
+    // Por ahora, devuelve coordenadas de ejemplo
+    if (ubicacion == "Auditorio Nacional") {
+      return LatLng(19.426726, -99.1718706);
+    } else if (ubicacion == "Centro de Convenciones") {
+      return LatLng(19.432608, -99.133209);
+    } else {
+      return _center;
+    }
   }
 
   @override
@@ -21,7 +59,11 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(child: Text('Mapa de eventos cercanos',style: TextStyle(color: Colors.white),)),
+        title: Text(
+          'Mapa de eventos cercanos',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         automaticallyImplyLeading: false,
       ),
@@ -31,6 +73,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           target: _center,
           zoom: 11.0,
         ),
+        markers: _markers,
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
