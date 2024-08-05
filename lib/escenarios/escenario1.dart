@@ -5,9 +5,12 @@ import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/material.dart';
 
 class Escenario1 extends StatelessWidget {
-    final int id;
+  final int id;
 
-  const Escenario1({super.key, required this.id});
+  Escenario1({super.key, required this.id});
+
+  final GlobalKey<AsientosState> asientosKey = GlobalKey<AsientosState>();
+
   @override
   Widget build(BuildContext context) {
     // Obtenemos el tamaño de la pantalla
@@ -29,7 +32,7 @@ class Escenario1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(id:id), //Componente de la compra
+            Eventbuy(id: id), //Componente de la compra
             const SizedBox(height: 20.0),
 
             Center(
@@ -47,7 +50,10 @@ class Escenario1 extends StatelessWidget {
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 140),
-                      child: Asientos(), //Componente de los asientos
+                      child: Asientos(
+                        key: asientosKey,
+                        idEvento: id,
+                      ), //Componente de los asientos
                     ),
                   ),
                 ],
@@ -58,10 +64,13 @@ class Escenario1 extends StatelessWidget {
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    asientosKey.currentState?.confirmarAsientos();
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MetodoPagoScreen(id:id)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MetodoPagoScreen(id: id),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
