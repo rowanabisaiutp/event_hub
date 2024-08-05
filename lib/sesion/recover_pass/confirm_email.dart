@@ -11,7 +11,7 @@ class ConfirmEmail extends StatelessWidget {
   //const name({super.key});
 
   final _emailController = TextEditingController();
-  final url = Uri.parse('http://10.0.2.2:5000/api/forgot-password/');
+  final url = Uri.parse('https://api-digitalevent.onrender.com/api/password/forgot-password/');
 
   
 
@@ -83,22 +83,22 @@ class ConfirmEmail extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecoverPass(),
-                          ));
-                    },
-                    child: Text(
-                      'Olvide mi contraseña',
-                      style: TextStyle(color: Colors.pinkAccent),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: TextButton(
+                //     onPressed: () {
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) => RecoverPass(),
+                //           ));
+                //     },
+                //     child: Text(
+                //       'Olvide mi contraseña',
+                //       style: TextStyle(color: Colors.pinkAccent),
+                //     ),
+                //   ),
+                // ),
                 GradientButton(
                   text: 'Enviar email',
                   gradient: LinearGradient(

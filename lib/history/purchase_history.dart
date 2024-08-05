@@ -162,7 +162,7 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
                                       size: 16, color: Colors.grey),
                                   SizedBox(width: 4),
                                   Text(
-                                    history[index]?['evento_id'] == null ? "" : history[index]['evento_id'].toString(),
+                                    history[index]?['pago_id'] == null ? "" : history[index]['pago_id'].toString(),
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ],
