@@ -7,7 +7,8 @@ import 'package:digital_event_hub/widgets/cards/cardReview.dart';
 
 void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
   int userId = int.parse(UserSession().userId!);
-  Future<List<Map<String, dynamic>>> commentsFuture = fetchCommentsAndUsers(eventoId);
+  Future<List<Map<String, dynamic>>> commentsFuture =
+      fetchCommentsAndUsers(eventoId);
   TextEditingController commentController = TextEditingController();
   ApiServiceComentarios apiService = ApiServiceComentarios();
 
@@ -35,13 +36,18 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                   enabled: true,
                   child: ListView.builder(
                     controller: scrollController,
-                    itemCount: 5, // Número arbitrario para mostrar las tarjetas de carga
+                    itemCount:
+                        5, // Número arbitrario para mostrar las tarjetas de carga
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
                           SizedBox(height: 5.0),
                           ReviewCard(
-                            '', '', '', '', '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
                           ),
                           SizedBox(height: 10.0),
                         ],
@@ -68,30 +74,40 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                               children: [
                                 SizedBox(height: 5.0),
                                 Dismissible(
-                                  key: Key(comentario['comentario_id'].toString()),
+                                  key: Key(
+                                      comentario['comentario_id'].toString()),
                                   direction: comentario['usuario_id'] == userId
                                       ? DismissDirection.endToStart
                                       : DismissDirection.none,
                                   background: Container(
                                     color: Colors.red,
                                     alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.0),
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,
                                     ),
                                   ),
-                                  onDismissed: comentario['usuario_id'] == userId
+                                  onDismissed: comentario['usuario_id'] ==
+                                          userId
                                       ? (direction) async {
                                           try {
-                                            await apiService.deleteComment(comentario['comentario_id']);
+                                            await apiService.deleteComment(
+                                                comentario['comentario_id']);
                                             reviewsList.removeAt(index);
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(content: Text('Comentario eliminado')),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      'Comentario eliminado')),
                                             );
                                           } catch (e) {
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(content: Text('Error al eliminar comentario: $e')),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      'Error al eliminar comentario: $e')),
                                             );
                                           }
                                         }
@@ -112,7 +128,8 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                       ),
                       /*PARA EL POST de comentarios*/
                       Padding(
-                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -151,9 +168,11 @@ void Comentarios(BuildContext context, TickerProvider vsync, int eventoId) {
                                 onPressed: () async {
                                   if (commentController.text.isNotEmpty) {
                                     try {
-                                      await apiService.createComment(eventoId, userId, commentController.text);
+                                      await apiService.createComment(eventoId,
+                                          userId, commentController.text);
                                       // Refresh comments
-                                      commentsFuture = fetchCommentsAndUsers(eventoId);
+                                      commentsFuture =
+                                          fetchCommentsAndUsers(eventoId);
                                       commentController.clear();
                                       Navigator.pop(context);
                                     } catch (e) {
@@ -185,13 +204,15 @@ Future<List<Map<String, dynamic>>> fetchCommentsAndUsers(int eventoId) async {
   try {
     List<dynamic> comments = await apiService.fetchComments(eventoId);
     for (var comment in comments) {
-      Map<String, dynamic> user = await apiService.fetchUser(comment['usuario_id']);
+      Map<String, dynamic> user =
+          await apiService.fetchUser(comment['usuario_id']);
       reviewsList.add({
         'comentario_id': comment['comentario_id'],
         'usuario_id': comment['usuario_id'],
         'username': user['nombre'],
         'img': user['fotoPerfil'],
-        'qualification': (Random().nextDouble() * 5).toStringAsFixed(1), // Calificación aleatoria
+        'qualification': (Random().nextDouble() * 5)
+            .toStringAsFixed(1), // Calificación aleatoria
         'text': comment['comentario'],
         'fecha': comment['fecha'].substring(0, 10),
       });

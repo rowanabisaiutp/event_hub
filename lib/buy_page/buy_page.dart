@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/buy_page/historial_pagos.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -5,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:digital_event_hub/reviews/eventBuy.dart';
 import 'package:flutter/services.dart';
-
 
 class MetodoPagoScreen extends StatelessWidget {
   final int id;
@@ -19,7 +19,7 @@ class MetodoPagoScreen extends StatelessWidget {
         'currency': currency,
       });
       final response = await http.post(
-        Uri.https('api-digitalevent.onrender.com', '/api/pagos/pago'), 
+        Uri.https('api-digitalevent.onrender.com', '/api/pagos/pago'),
         body: body,
         headers: {'Content-Type': 'application/json'},
       );
@@ -27,7 +27,7 @@ class MetodoPagoScreen extends StatelessWidget {
       if (response.statusCode == 200) {
         final paymentIntentData = jsonDecode(response.body);
         final clientSecret = paymentIntentData['client_secret'] as String;
-        print(clientSecret); 
+        print(clientSecret);
         return clientSecret;
       } else {
         throw Exception('Failed to create payment intent');
@@ -46,10 +46,9 @@ class MetodoPagoScreen extends StatelessWidget {
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: paymentIntentClientSecret,
-          style: ThemeMode.light,
-          merchantDisplayName: 'ejemplo'
-        ),
+            paymentIntentClientSecret: paymentIntentClientSecret,
+            style: ThemeMode.light,
+            merchantDisplayName: 'ejemplo'),
       );
 
       await displayPaymentSheet(context);
@@ -90,6 +89,17 @@ class MetodoPagoScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white)),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PaymentHistoryPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         color: Colors.white, // Establecer color de fondo a blanco
