@@ -139,7 +139,7 @@ class AsientosState extends State<Asientos> {
                         child: Text(
                           seat['numero_asiento'].split('-').last,
                           style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
+                            color: isSelected ? Colors.white : Colors.white,
                           ),
                         ),
                       ),
