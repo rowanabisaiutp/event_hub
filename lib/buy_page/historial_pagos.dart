@@ -64,8 +64,10 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 220, 81, 255),
-        title: Text('Historial de Pagos'),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text('Historial de Pagos', style: TextStyle(color: Colors.white)),
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<dynamic>>(
