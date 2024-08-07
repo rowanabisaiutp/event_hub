@@ -33,7 +33,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
   void fetchEventById(int eventId) async {
     try {
       List<dynamic> fetchedEvents =
-          await ApiServiceProfile().fetchEvents(); // Obtén la lista de eventos
+          await ApiServiceEvent().fetchEvents(); // Obtén la lista de eventos
       Map<String, dynamic>? fetchedEvent = fetchedEvents.firstWhere(
           (e) => e['evento_id'] == eventId,
           orElse: () => null); // Filtra el evento por id

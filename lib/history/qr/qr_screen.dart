@@ -1,4 +1,4 @@
-import 'package:digital_event_hub/reviews/eventBuy.dart';
+import 'package:digital_event_hub/reviews/eventBuySeat.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -37,7 +37,7 @@ class QRScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eventbuy(id: id), // Componente de la compra
+            EventBuySeat(id: id), // Componente de la compra
             const SizedBox(height: 36.0),
             Expanded(
               child: Center(

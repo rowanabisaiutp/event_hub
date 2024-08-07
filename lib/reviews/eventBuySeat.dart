@@ -1,19 +1,22 @@
-import 'package:digital_event_hub/event_detail/ApiServiceEvent.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:digital_event_hub/reviews/ApiServiceEventSeat.dart';
+import 'package:digital_event_hub/sesion/login/idUser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class Eventbuy extends StatefulWidget {
+class EventBuySeat extends StatefulWidget {
   final int id;
 
-  const Eventbuy({super.key, this.id = 2});
+  const EventBuySeat({super.key, this.id = 2});
+
   @override
-  State<Eventbuy> createState() => _EventbuyState();
+  State<EventBuySeat> createState() => _EventBuySeatState();
 }
 
-class _EventbuyState extends State<Eventbuy> {
+class _EventBuySeatState extends State<EventBuySeat> {
   Map<String, dynamic>? event;
   int get id => widget.id;
+  int userId =
+      int.parse(UserSession().userId!); // Obtén el userId dinámico aquí
+  List<dynamic> userSeats = [];
 
   @override
   void initState() {
@@ -23,15 +26,39 @@ class _EventbuyState extends State<Eventbuy> {
 
   void fetchEventById(int eventId) async {
     try {
-      List<dynamic> fetchedEvents = await ApiServiceEvent().fetchEvents();
+      List<dynamic> fetchedEvents = await ApiServiceEventSeat().fetchEvents();
       Map<String, dynamic>? fetchedEvent = fetchedEvents
           .firstWhere((e) => e['evento_id'] == eventId, orElse: () => null);
+
+      if (fetchedEvent != null) {
+        fetchScenarioSeats(eventId);
+      }
+
       setState(() {
         event = fetchedEvent;
-        print(event);
       });
     } catch (e) {
       print("Failed to load event: $e");
+    }
+  }
+
+  void fetchScenarioSeats(int eventId) async {
+    try {
+      List<dynamic> scenarios = await ApiServiceEventSeat().fetchScenarios();
+      Map<String, dynamic>? scenario = scenarios
+          .firstWhere((s) => s['evento_id'] == eventId, orElse: () => null);
+
+      if (scenario != null) {
+        List<dynamic> seats = scenario['asientos'];
+        List<dynamic> userSeatsList =
+            seats.where((seat) => seat['usuario_id'] == userId).toList();
+
+        setState(() {
+          userSeats = userSeatsList;
+        });
+      }
+    } catch (e) {
+      print("Failed to load scenario: $e");
     }
   }
 
@@ -84,11 +111,11 @@ class _EventbuyState extends State<Eventbuy> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Row(
                     children: [
                       Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         event != null
                             ? "${event!['fecha_inicio']?.substring(0, 10)}"
@@ -97,17 +124,36 @@ class _EventbuyState extends State<Eventbuy> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Row(
                     children: [
                       Icon(Icons.access_time, size: 16, color: Colors.grey),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         event != null
                             ? '${event!['hora']}'
                             : 'Hora: Desconocida',
                         style: TextStyle(color: Colors.grey),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Image.asset('assets/Seat.png',
+                          height: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      userSeats.isNotEmpty
+                          ? Expanded(
+                              child: Text(
+                                "Asiento Reservado: ${userSeats.map((seat) => seat['numero_asiento'].split('-')[1]).join(', ')}",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            )
+                          : const Text(
+                              "Asientos disponibles",
+                              style: TextStyle(color: Colors.grey),
+                            ),
                     ],
                   ),
                 ],

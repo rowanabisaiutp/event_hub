@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ApiServiceProfile {
+class ApiServiceEvent {
   String get apiUrl =>
       "https://api-digitalevent.onrender.com/api/eventos/events";
   Future<List<dynamic>> fetchEvents() async {
