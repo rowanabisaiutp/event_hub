@@ -17,7 +17,7 @@ class Evento {
   factory Evento.fromJson(Map<String, dynamic> json) {
     return Evento(
       eventoId: json['evento_id'],
-      nombreEvento: json['nombre_evento'],
+      nombreEvento: json['evento_nombre'],
       ubicacion: json['ubicacion'],
       imagenUrl: json['imagen_url'],
     );
@@ -27,7 +27,7 @@ class Evento {
 
 Future<List<Evento>> fetchEventos() async {
   final response = await http.get(
-      Uri.parse('https://api-digitalevent.onrender.com/api/eventos/events'));
+      Uri.parse('https://api-digitalevent.onrender.com/api/events/get/approved'));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);

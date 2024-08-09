@@ -88,6 +88,16 @@ class _ComentariosSheetState extends State<ComentariosSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Center(
+                      child: Text(
+                        'Comentarios',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
                     Expanded(
                       child: ListView.builder(
                         controller: scrollController,
@@ -98,36 +108,47 @@ class _ComentariosSheetState extends State<ComentariosSheet> {
                             children: [
                               SizedBox(height: 5.0),
                               Dismissible(
-                                key: Key(comentario['comentario_id'].toString()),
-                                direction: comentario['usuario_id'] == widget.userId
-                                    ? DismissDirection.endToStart
-                                    : DismissDirection.none,
+                                key:
+                                    Key(comentario['comentario_id'].toString()),
+                                direction:
+                                    comentario['usuario_id'] == widget.userId
+                                        ? DismissDirection.endToStart
+                                        : DismissDirection.none,
                                 background: Container(
                                   color: Colors.red,
                                   alignment: Alignment.centerRight,
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
                                   child: Icon(
                                     Icons.delete,
                                     color: Colors.white,
                                   ),
                                 ),
-                                onDismissed: comentario['usuario_id'] == widget.userId
-                                    ? (direction) async {
-                                        try {
-                                          await apiService.deleteComment(comentario['comentario_id']);
-                                          setState(() {
-                                            reviewsList.removeAt(index);
-                                          });
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Comentario eliminado')),
-                                          );
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Error al eliminar comentario: $e')),
-                                          );
-                                        }
-                                      }
-                                    : null,
+                                onDismissed:
+                                    comentario['usuario_id'] == widget.userId
+                                        ? (direction) async {
+                                            try {
+                                              await apiService.deleteComment(
+                                                  comentario['comentario_id']);
+                                              setState(() {
+                                                reviewsList.removeAt(index);
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Comentario eliminado')),
+                                              );
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Error al eliminar comentario: $e')),
+                                              );
+                                            }
+                                          }
+                                        : null,
                                 child: ReviewCard(
                                   comentario['username'] ?? '',
                                   comentario['img'] ?? '',
@@ -144,7 +165,8 @@ class _ComentariosSheetState extends State<ComentariosSheet> {
                     ),
                     /*PARA EL POST de comentarios*/
                     Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -183,10 +205,14 @@ class _ComentariosSheetState extends State<ComentariosSheet> {
                               onPressed: () async {
                                 if (commentController.text.isNotEmpty) {
                                   try {
-                                    await apiService.createComment(widget.eventoId, widget.userId, commentController.text);
+                                    await apiService.createComment(
+                                        widget.eventoId,
+                                        widget.userId,
+                                        commentController.text);
                                     // Refresh comments
                                     setState(() {
-                                      commentsFuture = fetchCommentsAndUsers(widget.eventoId);
+                                      commentsFuture = fetchCommentsAndUsers(
+                                          widget.eventoId);
                                     });
                                     commentController.clear();
                                   } catch (e) {
@@ -217,13 +243,15 @@ Future<List<Map<String, dynamic>>> fetchCommentsAndUsers(int eventoId) async {
   try {
     List<dynamic> comments = await apiService.fetchComments(eventoId);
     for (var comment in comments) {
-      Map<String, dynamic> user = await apiService.fetchUser(comment['usuario_id']);
+      Map<String, dynamic> user =
+          await apiService.fetchUser(comment['usuario_id']);
       reviewsList.add({
         'comentario_id': comment['comentario_id'],
         'usuario_id': comment['usuario_id'],
         'username': user['nombre'],
         'img': user['fotoPerfil'],
-        'qualification': (Random().nextDouble() * 5).toStringAsFixed(1), // Calificación aleatoria
+        'qualification': (Random().nextDouble() * 5)
+            .toStringAsFixed(1), // Calificación aleatoria
         'text': comment['comentario'],
         'fecha': comment['fecha'].substring(0, 10),
       });

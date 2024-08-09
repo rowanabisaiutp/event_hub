@@ -144,19 +144,29 @@ class _EventsListBodyState extends State<EventsListBody> {
   bool isLoading = true;
   List<dynamic> datos = [];
   String selectedCategory = '';
-  final List<String> categories = ['Tecnología', 'Deportes', 'Cine', 'Teatro'];
+  final List<String> categories = ['Tecnología','Educación', 'Entretenimiento', 'Deportes', 'Teatro'];
 
   Future<void> fetchEventos({String category = ""}) async {
     setState(() {
       isLoading = true;
     });
+
+    // Nueva URL sin filtro
     final response = await http.get(Uri.parse(
-        'https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''}'));
+        'https://api-digitalevent.onrender.com/api/events/get/approved'));
+
     if (response.statusCode == 200) {
-      print(
-          "############## https://api-digitalevent.onrender.com/api/eventos/filtro${category != "" ? '?category=$category' : ''} #################");
+      List<dynamic> eventos = jsonDecode(response.body);
+      
+      // Filtrar manualmente según la categoría seleccionada
+      if (category.isNotEmpty) {
+        eventos = eventos.where((evento) {
+          return evento['categoria'] == category;
+        }).toList();
+      }
+
       setState(() {
-        datos = jsonDecode(response.body);
+        datos = eventos;
         isLoading = false;
       });
     } else {
@@ -203,9 +213,7 @@ class _EventsListBodyState extends State<EventsListBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeaderHome(userData?['nombre'] ?? ""),
-          // SizedBox(height: 24.0),
-          // InputSearch(),
+          HeaderHome(userData?['nombre'], userData?['fotoPerfil'] ?? "",),
           SizedBox(height: 10.0),
           ScrollChips(
               categories: categories,
@@ -213,7 +221,6 @@ class _EventsListBodyState extends State<EventsListBody> {
               selectedCategory: selectedCategory),
           SizedBox(height: 10.0),
           Expanded(
-            // Ejemplo de altura fija
             child: ListView.builder(
               padding: EdgeInsets.all(0.0),
               itemCount: datos.length,
@@ -232,7 +239,7 @@ class _EventsListBodyState extends State<EventsListBody> {
                     child: Column(
                       children: [
                         CardEvent(
-                            datos[index]['nombre_evento'] ?? '',
+                            datos[index]['evento_nombre'] ?? '',
                             datos[index]['imagen_url'] ?? '',
                             datos[index]['ubicacion'] ?? '',
                             datos[index]['fecha_inicio'] ?? '',

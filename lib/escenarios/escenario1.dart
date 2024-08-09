@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class Escenario1 extends StatelessWidget {
   final int id;
-
-  Escenario1({super.key, required this.id});
+  final double monto;
+  Escenario1({super.key, required this.id,  required this.monto,});
 
   final GlobalKey<AsientosState> asientosKey = GlobalKey<AsientosState>();
 
@@ -65,11 +65,12 @@ class Escenario1 extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     asientosKey.currentState?.confirmarAsientos();
-                    Navigator.push(
-                      context,
+
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => MetodoPagoScreen(id: id),
-                      ),
+                          builder: (context) => MetodoPagoScreen(id: id, monto: monto,)),
+                      (Route<dynamic> route) =>
+                          false, // Elimina todas las rutas anteriores
                     );
                   },
                   style: ElevatedButton.styleFrom(

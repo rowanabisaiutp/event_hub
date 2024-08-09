@@ -1,11 +1,13 @@
+import 'dart:io';  // Asegúrate de importar dart:io para usar FileImage
 import 'package:digital_event_hub/Profile/ProfileHome.dart';
 import 'package:flutter/material.dart';
 
 class HeaderHome extends StatelessWidget {
-  final String username;
+  final String? username;
+  final String? fotoPerfil;
 
   // Constructor
-  HeaderHome(this.username);
+  HeaderHome(this.username, this.fotoPerfil);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class HeaderHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              username != "" ? "Hola, ${username}" : "Hola!",
+              username != null && username!.isNotEmpty ? "Hola, $username" : "Hola!",
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -38,9 +40,21 @@ class HeaderHome extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ProfileHome()),
             );
           },
-          child: const CircleAvatar(
+          child: CircleAvatar(
             radius: 24.0,
-            backgroundImage: AssetImage('assets/profile.png'),
+            child: ClipOval(
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/profile.png'), // Imagen predeterminada
+                image: fotoPerfil != null && fotoPerfil!.isNotEmpty
+                    ? (fotoPerfil!.startsWith('http')
+                        ? NetworkImage(fotoPerfil!)
+                        : FileImage(File(fotoPerfil!)) as ImageProvider)
+                    : const AssetImage('assets/profile.png'),
+                fit: BoxFit.cover,
+                width: 48.0,
+                height: 48.0,
+              ),
+            ),
           ),
         ),
       ],

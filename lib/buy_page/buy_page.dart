@@ -1,4 +1,5 @@
 import 'package:digital_event_hub/buy_page/historial_pagos.dart';
+import 'package:digital_event_hub/home/eventsList.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/services.dart';
 
 class MetodoPagoScreen extends StatelessWidget {
   final int id;
-
-  const MetodoPagoScreen({super.key, required this.id});
+  final double monto;
+  const MetodoPagoScreen({super.key, required this.id, required this.monto});
 
   Future<String> createPaymentIntent(int amount, String currency) async {
     try {
@@ -42,7 +43,11 @@ class MetodoPagoScreen extends StatelessWidget {
 
   Future<void> makePayment(BuildContext context) async {
     try {
-      final paymentIntentClientSecret = await createPaymentIntent(5000, 'USD');
+      // Convertir el monto a centavos
+      final int amountInCents = (monto * 100).toInt();
+      
+      // Usar el monto en centavos al crear el Intento de Pago
+      final paymentIntentClientSecret = await createPaymentIntent(amountInCents, 'USD');
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
@@ -62,8 +67,14 @@ class MetodoPagoScreen extends StatelessWidget {
   Future<void> displayPaymentSheet(BuildContext context) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Pago exitoso")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Pago exitoso")),
+        );
+        // Redirigir a la pantalla de eventos después del pago exitoso
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => EventsList()),
+        );
       }).onError((error, stackTrace) {
         throw Exception(error);
       });
@@ -158,7 +169,7 @@ class MetodoPagoScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   Text(
-                    '\$00.00',
+                    '$monto',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -174,7 +185,7 @@ class MetodoPagoScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    '\$00.00',
+                    '$monto',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -231,3 +242,4 @@ class PaymentOption extends StatelessWidget {
     );
   }
 }
+

@@ -49,8 +49,8 @@ class _EventbuyState extends State<Eventbuy> {
             event != null
                 ? Image.network(
                     event!['imagen_url'] ??
-                        'http://www.palmares.lemondeduchiffre.fr/images/joomlart/demo/default.jpg', // URL de la imagen desde el evento o una imagen por defecto
-                    width: 100,
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKF_YlFFlKS6AQ8no0Qs_xM6AkjvwFwP61og&s', // URL de la imagen desde el evento o una imagen por defecto
+                    width: 120,
                     height: 120,
                   )
                 : const CircularProgressIndicator(),
@@ -61,7 +61,7 @@ class _EventbuyState extends State<Eventbuy> {
                 children: [
                   Text(
                     event != null
-                        ? event!['nombre_evento'] ?? 'Evento'
+                        ? event!['evento_nombre'] ?? 'Evento'
                         : 'Evento',
                     style: const TextStyle(
                       fontSize: 18,

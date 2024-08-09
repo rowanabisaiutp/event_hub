@@ -4,6 +4,7 @@ import 'package:digital_event_hub/sesion/login/login.dart';
 import 'package:digital_event_hub/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'dart:io';
 
@@ -218,29 +219,30 @@ class _ProfileHomeState extends State<ProfileHome> {
                         }),
                       ),
                       const SizedBox(height: 83.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignInScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.tertiary,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 90, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ), // Color del botón
-                        ),
-                        child: const Text(
-                          'Cerrar sesión',
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 25.0),
-                        ),
-                      ),
+ElevatedButton(
+  onPressed: () async {
+    // Eliminar los datos de la sesión (ejemplo usando SharedPreferences)
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Esto elimina todos los datos almacenados
+
+    // Navegar a la pantalla de inicio de sesión y eliminar todas las pantallas anteriores
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => SignInScreen()),
+      (Route<dynamic> route) => false, // Elimina todas las rutas anteriores
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Theme.of(context).colorScheme.tertiary,
+    padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 8),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+  child: const Text(
+    'Cerrar sesión',
+    style: TextStyle(color: Colors.white, fontSize: 25.0),
+  ),
+),
                     ],
                   ),
                 ),

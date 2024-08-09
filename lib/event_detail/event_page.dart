@@ -69,7 +69,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
             icon: const Icon(Icons.share, color: Colors.black),
             onPressed: () async {
               await Share.share(
-                  'Hola, te invito a este evento: ${event!['nombre_evento']} en ${event!['ubicacion']} el ${event!['fecha_inicio'].substring(0, 10)} a las ${event!['hora']}');
+                  'Hola, te invito a este evento: ${event!['evento_nombre']} en ${event!['ubicacion']} el ${event!['fecha_inicio'].substring(0, 10)} a las ${event!['hora']}');
             },
           ),
         ],
@@ -90,7 +90,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                           child: event != null
                               ? Image.network(
                                   event!['imagen_url'] ??
-                                      'https://imgs.search.brave.com/SEEkteBkeBAROk-PRhtRO0sSp-e3N8eXgAZvfMwFpm4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS40ODU5/MjM2NjEuMTI0MC9i/ZyxmOGY4ZjgtZmxh/dCw3NTB4LDA3NSxm/LXBhZCw3NTB4MTAw/MCxmOGY4ZjgudTEu/anBn', // URL de imagen por defecto si no está disponible en el evento
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKF_YlFFlKS6AQ8no0Qs_xM6AkjvwFwP61og&s', // URL de imagen por defecto si no está disponible en el evento
                                   width: double.infinity,
                                   height: 500,
                                   fit: BoxFit.cover,
@@ -119,7 +119,7 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                                   children: [
                                     Text(
                                       event != null
-                                          ? event!['nombre_evento'] ?? 'Evento'
+                                          ? event!['evento_nombre'] ?? 'Evento'
                                           : 'Evento',
                                       style: TextStyle(
                                         color: Colors.white,
@@ -195,15 +195,53 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        FaIcon(FontAwesomeIcons.solidUser,
+                            size: 15, color: Colors.grey),
+                        SizedBox(width: 5),
+                        Text(
+                            event != null
+                                ? 'Evento: ${event!['tipo_evento'] ?? 'Desconocido'}'
+                                : 'Descripción no disponible',
+                            style: TextStyle(
+                                fontSize: 16, height: 1.4, color: Colors.grey)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        FaIcon(FontAwesomeIcons.filter,
+                            size: 15, color: Colors.grey),
+                        SizedBox(width: 5),
+                        Text(
+                            event != null
+                                ? 'Categoria: ${event!['categoria'] ?? 'Desconocida'}'
+                                : 'Descripción no disponible',
+                            style: TextStyle(
+                                fontSize: 16, height: 1.4, color: Colors.grey)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        FaIcon(FontAwesomeIcons.ticketSimple,
+                            size: 15, color: Colors.grey),
+                        SizedBox(width: 5),
+                        Text(
+                            event != null
+                                ? 'Precio: ${event!['monto'] ?? 'Desconocida'}'
+                                : 'Descripción no disponible',
+                            style: TextStyle(
+                                fontSize: 16, height: 1.4, color: Colors.grey)),
+                      ],
+                    ),
                     const SizedBox(height: 16),
                     Text(
                         event != null
-                            ? 'Organizado por: ${event!['organizador_nombre'] ?? 'Desconocido'}\n\nTipo de evento: ${event!['tipo_evento'] ?? 'Desconocido'}\nCategoría: ${event!['categoria_nombre'] ?? 'Desconocida'}'
+                            ? '${event!['descripcion'] ?? 'Desconocido'}'
                             : 'Descripción no disponible',
                         style: TextStyle(
-                          fontSize: 16,
-                          height: 1.4,
-                        )),
+                            fontSize: 16, height: 1.4, color: Colors.grey)),
                   ],
                 ),
               ),
@@ -218,27 +256,32 @@ class _EventPageState extends State<EventPage> with TickerProviderStateMixin {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Escenario1(
-                          id: id), // Pasar el id //<-------------------- Modificado
+                        id: id,
+                        monto:
+                            event != null ? double.parse(event!['monto']) : 0.0,
+                      ), // Pasar el id //<-------------------- Modificado
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.tertiary,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 120, vertical: 13),
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Buy Now',
+                      event != null
+                          ? '\$${event!['monto'] ?? '00.00'}'
+                          : '00.00',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    SizedBox(width: 20),
-                    Icon(Icons.send, color: Colors.white),
+                    // SizedBox(width: 20),
+                    // Icon(Icons.send, color: Colors.white),
                   ],
                 ),
               ),

@@ -5,7 +5,7 @@ class ApiServiceComentarios {
   final String baseUrl = 'https://api-digitalevent.onrender.com/api';
 
   Future<List<dynamic>> fetchComments(int eventId) async {
-    final response = await http.get(Uri.parse('$baseUrl/comentario/list/$eventId'));
+    final response = await http.get(Uri.parse('$baseUrl/comentario/list/$eventId?page=1&limit=100'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -25,7 +25,7 @@ class ApiServiceComentarios {
   }
 
   Future<void> createComment(int eventId, int userId, String comentario) async {
-    final String url = '$baseUrl/comentario/create/$eventId/$userId';
+    final String url = '$baseUrl/comentario/create';
     final DateTime now = DateTime.now();
     final String formattedDate = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
 
