@@ -1,3 +1,4 @@
+import 'package:digital_event_hub/sesion/login/idUser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,7 +12,7 @@ class PaymentHistoryPage extends StatefulWidget {
 class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
   Future<List<dynamic>> fetchPaymentHistory() async {
     final paymentResponse = await http.get(Uri.parse(
-        'https://api-digitalevent.onrender.com/api/pagos/historialpagos'));
+        'https://api-digitalevent.onrender.com/api/pagos/historial/${UserSession().userId}'));
 
     if (paymentResponse.statusCode != 200) {
       throw Exception('Failed to load payment history');
