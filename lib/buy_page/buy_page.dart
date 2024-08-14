@@ -1,5 +1,6 @@
 import 'package:digital_event_hub/buy_page/historial_pagos.dart';
 import 'package:digital_event_hub/home/eventsList.dart';
+import 'package:digital_event_hub/sesion/login/idUser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -13,14 +14,39 @@ class MetodoPagoScreen extends StatelessWidget {
   final double monto;
   const MetodoPagoScreen({super.key, required this.id, required this.monto});
 
-  Future<String> createPaymentIntent(int amount, String currency) async {
+  Future<String> getEventDescription(int eventId) async {
+    try {
+      final response = await http.get(
+        Uri.https('api-digitalevent.onrender.com', '/api/events/get/img/$eventId'),
+      );
+
+      if (response.statusCode == 200) {
+        final eventData = jsonDecode(response.body);
+        final eventName = eventData['evento_nombre'] as String;
+        return eventName;
+      } else {
+        throw Exception('Failed to fetch event description');
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      throw Exception('Failed to fetch event description');
+    }
+  }
+
+  Future<String> createPaymentIntent(int amount, String currency, String description, int userId, int eventId) async {
     try {
       final body = jsonEncode({
         'amount': amount,
         'currency': currency,
+        'descripcion': description,
+        'usuario_id': userId,
+        'evento_id': eventId,
       });
+
       final response = await http.post(
-        Uri.https('api-digitalevent.onrender.com', '/api/pagos/pago'),
+        Uri.https('api-digitalevent.onrender.com', '/api/pagos/pagar'),
         body: body,
         headers: {'Content-Type': 'application/json'},
       );
@@ -28,7 +54,6 @@ class MetodoPagoScreen extends StatelessWidget {
       if (response.statusCode == 200) {
         final paymentIntentData = jsonDecode(response.body);
         final clientSecret = paymentIntentData['client_secret'] as String;
-        print(clientSecret);
         return clientSecret;
       } else {
         throw Exception('Failed to create payment intent');
@@ -43,17 +68,24 @@ class MetodoPagoScreen extends StatelessWidget {
 
   Future<void> makePayment(BuildContext context) async {
     try {
-      // Convertir el monto a centavos
       final int amountInCents = (monto * 100).toInt();
-      
-      // Usar el monto en centavos al crear el Intento de Pago
-      final paymentIntentClientSecret = await createPaymentIntent(amountInCents, 'USD');
+      final String eventDescription = await getEventDescription(id);
+      final int userId = int.parse(UserSession().userId!);
+
+      final paymentIntentClientSecret = await createPaymentIntent(
+        amountInCents,
+        'USD',
+        eventDescription,
+        userId,
+        id,
+      );
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-            paymentIntentClientSecret: paymentIntentClientSecret,
-            style: ThemeMode.light,
-            merchantDisplayName: 'ejemplo'),
+          paymentIntentClientSecret: paymentIntentClientSecret,
+          style: ThemeMode.light,
+          merchantDisplayName: 'ejemplo',
+        ),
       );
 
       await displayPaymentSheet(context);
@@ -242,4 +274,3 @@ class PaymentOption extends StatelessWidget {
     );
   }
 }
-

@@ -3,24 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRScreen extends StatelessWidget {
-  final String code;
+  final String eventId;
+  final String paymentId;
 
-  const QRScreen({super.key, required this.code});
+  const QRScreen({super.key, required this.eventId, required this.paymentId});
   
   @override
   Widget build(BuildContext context) {
-    // Obtenemos el tamaño de la pantalla
     final Size screenSize = MediaQuery.of(context).size;
-    // Calculamos el padding horizontal de manera proporcional al tamaño de la pantalla
     final double horizontalPadding = screenSize.width * 0.2;
 
-    // Convertimos el código a un entero
-    int id;
+    // Convertimos el eventId a un entero para `EventBuySeat`
+    int parsedEventId;
     try {
-      id = int.parse(code);
+      parsedEventId = int.parse(eventId);
     } catch (e) {
-      // Maneja el error, tal vez mostrando un mensaje o asignando un valor por defecto
-      id = 2; // Valor por defecto en caso de error
+      parsedEventId = 2; // Valor por defecto en caso de error
     }
 
     return Scaffold(
@@ -37,7 +35,7 @@ class QRScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            EventBuySeat(id: id), // Componente de la compra
+            EventBuySeat(id: parsedEventId), // Usamos el evento_id
             const SizedBox(height: 36.0),
             Expanded(
               child: Center(
@@ -46,7 +44,7 @@ class QRScreen extends StatelessWidget {
                   height: 270,
                   alignment: Alignment.center,
                   child: QrImageView(
-                    data: code,
+                    data: paymentId, // Usamos el paymentId para el código QR
                     version: QrVersions.auto,
                     size: 270,
                     gapless: true,
@@ -55,13 +53,12 @@ class QRScreen extends StatelessWidget {
                       eyeShape: QrEyeShape.square,
                     ),
                     dataModuleStyle: QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.square, // Píxeles redondeados
+                      dataModuleShape: QrDataModuleShape.square,
                     ),
                   ),
                 ),
               ),
             ),
-
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Center(

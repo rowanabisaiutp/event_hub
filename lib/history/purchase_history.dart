@@ -13,7 +13,7 @@ class PurchaseHistoryPage extends StatefulWidget {
 
 class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
   final ApiServicePurcharseHistory apiService = ApiServicePurcharseHistory();
-  int userId = int.parse(UserSession().userId!); // Simulated user session 
+  int userId = int.parse(UserSession().userId!); // Simulated user session
   List<dynamic> history = [];
 
   Future<void> _fetchHistory() async {
@@ -40,7 +40,6 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     DateFormat formato = DateFormat('dd/MM/yyyy');
 
     return Scaffold(
@@ -48,7 +47,10 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         elevation: 0,
-        title: const Text('Historial de compras', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Historial de compras',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -162,7 +164,9 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
                                       size: 16, color: Colors.grey),
                                   SizedBox(width: 4),
                                   Text(
-                                    history[index]?['pago_id'] == null ? "" : history[index]['pago_id'].toString(),
+                                    history[index]?['pago_id'] == null
+                                        ? ""
+                                        : history[index]['pago_id'].toString(),
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ],
@@ -171,16 +175,20 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.qr_code, color: Theme.of(context).colorScheme.tertiary,),
+                          icon: Icon(
+                            Icons.qr_code,
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
                           onPressed: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QRScreen(
-                                  code: history[index]?['pago_id'] == null ? "" : history[index]['pago_id'].toString(),
-                                )
-                              )
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => QRScreen(
+                                          eventId: history[index]['evento_id']
+                                              .toString(),
+                                          paymentId: history[index]['pago_id']
+                                              .toString(),
+                                        )));
                           },
                         ),
                       ],

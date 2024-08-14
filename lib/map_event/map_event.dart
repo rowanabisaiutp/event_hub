@@ -45,13 +45,29 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   LatLng _getLatLngFromUbicacion(String ubicacion) {
     // Aquí puedes implementar un método para convertir la ubicación a coordenadas reales
     // Por ahora, devuelve coordenadas de ejemplo
-    if (ubicacion == "Auditorio Nacional") {
-      return LatLng(19.426726, -99.1718706);
-    } else if (ubicacion == "Centro de Convenciones") {
-      return LatLng(19.432608, -99.133209);
-    } else {
-      return _center;
+    switch (ubicacion) {
+      case "Auditorio Nacional":
+        return LatLng(19.426726, -99.1718706);
+      case "Centro de Convenciones":
+        return LatLng(19.432608, -99.133209);
+      case "Estadio Kukulcán Alamo":
+        return LatLng(20.9421633, -89.6035732);
+      case "Maxcanu":
+        return LatLng(20.5870974, -90.0170427);
+      case "Centro de Convenciones":
+        return LatLng(21.0328586, -89.6312825);
+      case "Universidad tecnologica del poniente UTP Maxcanú":
+        return LatLng(20.5784501, -90.0107107);
+      default:
+        return _center;
     }
+    // if (ubicacion == "Auditorio Nacional") {
+    //   return LatLng(19.426726, -99.1718706);
+    // } else if (ubicacion == "Centro de Convenciones") {
+    //   return LatLng(19.432608, -99.133209);
+    // } else {
+    //   return _center;
+    // }
   }
 
   @override

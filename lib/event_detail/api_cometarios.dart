@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 class ApiServiceComentarios {
   final String baseUrl = 'https://api-digitalevent.onrender.com/api';
 
-  Future<List<dynamic>> fetchComments(int eventId) async {
-    final response = await http.get(Uri.parse('$baseUrl/comentario/list/$eventId?page=1&limit=100'));
+  Future<List<dynamic>> fetchComments(int eventId, {int page = 1, int limit = 10}) async {
+    final response = await http.get(Uri.parse('$baseUrl/comentario/list/$eventId?page=$page&limit=$limit'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
