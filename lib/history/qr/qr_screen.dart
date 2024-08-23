@@ -27,6 +27,7 @@ class QRScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         title: const Text('Resumen de Compra',
             style: TextStyle(color: Colors.white)),
+             automaticallyImplyLeading: false,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),

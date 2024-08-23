@@ -45,6 +45,12 @@ class _ProfileHomeState extends State<ProfileHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text(''),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       body: Skeletonizer(
         enabled: isLoading,
         child: Container(
@@ -152,22 +158,22 @@ class _ProfileHomeState extends State<ProfileHome> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      const Text(
-                        'Contraseña',
-                        style: TextStyle(
-                          fontSize: 23.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      // const Text(
+                      //   'Contraseña',
+                      //   style: TextStyle(
+                      //     fontSize: 23.0,
+                      //     color: Colors.black,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
                       const SizedBox(height: 10.0),
-                      const Text(
-                        '****************',
-                        style: TextStyle(
-                          fontSize: 23.0,
-                          color: Colors.grey,
-                        ),
-                      ),
+                      // const Text(
+                      //   '****************',
+                      //   style: TextStyle(
+                      //     fontSize: 23.0,
+                      //     color: Colors.grey,
+                      //   ),
+                      // ),
                       const SizedBox(height: 90.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

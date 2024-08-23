@@ -7,7 +7,11 @@ import 'package:flutter/material.dart';
 class Escenario1 extends StatelessWidget {
   final int id;
   final double monto;
-  Escenario1({super.key, required this.id,  required this.monto,});
+  Escenario1({
+    super.key,
+    required this.id,
+    required this.monto,
+  });
 
   final GlobalKey<AsientosState> asientosKey = GlobalKey<AsientosState>();
 
@@ -50,10 +54,14 @@ class Escenario1 extends StatelessWidget {
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 140),
-                      child: Asientos(
-                        key: asientosKey,
-                        idEvento: id,
-                      ), //Componente de los asientos
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis
+                            .vertical, // Para permitir desplazamiento horizontal, cambia a Axis.vertical si prefieres vertical
+                        child: Asientos(
+                          key: asientosKey,
+                          idEvento: id,
+                        ), // Componente de los asientos
+                      ),
                     ),
                   ),
                 ],
@@ -68,7 +76,10 @@ class Escenario1 extends StatelessWidget {
 
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => MetodoPagoScreen(id: id, monto: monto,)),
+                          builder: (context) => MetodoPagoScreen(
+                                id: id,
+                                monto: monto,
+                              )),
                       (Route<dynamic> route) =>
                           false, // Elimina todas las rutas anteriores
                     );
